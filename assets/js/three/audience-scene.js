@@ -553,9 +553,10 @@ export async function create(ctx) {
     scene.updateMatrixWorld(true);
 
     /* ================= camera ================= */
-    const offX = lerp(0, 0.225, desk), offY = lerp(0.2, 0, desk);
+    /* sul telefono l'indice 01 02 03 sta in alto: il 3D un po' più in basso e meno alto */
+    const offX = lerp(0, 0.225, desk), offY = lerp(0.16, 0, desk);
     camera.setViewOffset(w, h, -offX * w, offY * h, w, h);
-    const availH = lerp(0.8, 0.44, desk), availV = lerp(0.42, 0.78, desk);
+    const availH = lerp(0.8, 0.44, desk), availV = lerp(0.36, 0.78, desk);
     const kV = 1 / (tanHalf * availV), kH = 1 / (tanHalf * aspect * availH);
     if (w2 < 1) framer.fitView(fit1, lerp(0.3, 0.4, ex1), kV * 0.97, kH * 0.97, vH[0]);
     if (w2 > 0 && w3 < 1) {

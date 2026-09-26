@@ -1125,17 +1125,18 @@ export async function create(ctx) {
     const wC = Math.max(0, 1 - wS - wL);
     const eS = stoolE(p), eL = lampE(p), dO = lampDrop(p);
     const revL = smoothstep(seg(p, T.dropA, T.dropA + 0.05));
+    const kd = smoothstep(seg(aspect, 0.85, 1.05));
     const F = [
       { y: 0.64 + 0.42 * eS, H: 1.36 + 0.86 * eS, W: 1.1 + 1.0 * eS, el: 0.27 + 0.05 * eS },
       { y: 1.04, H: 2.18, W: 1.3, el: 0.08 },
       { y: lerp(0.84, LAMP_BOT + (LAMP_EXP.top + LAMP_EXP.bot) / 2, eL) + dO * 0.5,
-        H: lerp(1.3, (LAMP_EXP.top - LAMP_EXP.bot) * 0.8, eL) + dO * 0.75, W: 0.95 + 0.2 * eL, el: 0.19 + 0.1 * eL }
+        /* lampada esplosa: su desktop inquadratura stretta; sul telefono intera, sotto l'indice dei lavori */
+        H: lerp(1.3, (LAMP_EXP.top - LAMP_EXP.bot) * lerp(1.08, 0.8, kd), eL) + dO * 0.75, W: 0.95 + 0.2 * eL, el: 0.19 + 0.1 * eL }
     ];
     const mix = (k) => F[0][k] * wS + F[1][k] * wC + F[2][k] * wL;
     const cy = mix('y'), fH = mix('H'), fW = mix('W'), el = mix('el');
 
     /* composizione: desktop a destra (centro al 72%), mobile nella metà alta (centro al 30%) */
-    const kd = smoothstep(seg(aspect, 0.85, 1.05));
     const fh = lerp(0.37, 0.68, kd), fw = lerp(0.84, 0.42, kd);
     const d = Math.max(fH / (fh * tan), fW / (fw * tan * aspect));
     target.set(0, cy, 0);

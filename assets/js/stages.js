@@ -1,7 +1,9 @@
 /* Tillverka · avvio delle scene 3D. Ogni <section data-stage="nome" data-theme="dark|light">
    viene montata quando si avvicina allo schermo (la prima subito) e spenta quando è lontana,
-   così restano accese poche scene alla volta (telefoni e schede video ringraziano). */
-import { mountStage } from './three/core.js';
+   così restano accese poche scene alla volta (telefoni e schede video ringraziano).
+   Se il dispositivo non ha WebGL, o se three.js non arriva (CDN irraggiungibile), tutte le sezioni ricevono
+   subito .no-webgl e mostrano i disegni di riserva invece di un riquadro vuoto. */
+let mountStage = null;
 
 const scenes = {
   intro: () => import('./three/intro-scene.js'),
@@ -44,7 +46,22 @@ function unmount(section) {
 }
 
 const sections = [...document.querySelectorAll('[data-stage]')];
-if (sections.length) {
+const fallbackAll = (err) => {
+  if (err) console.warn('[tillverka 3D]', err);
+  sections.forEach((s) => s.classList.add('no-webgl'));
+};
+function hasWebGL() {
+  try {
+    const c = document.createElement('canvas');
+    const gl = c.getContext('webgl2') || c.getContext('webgl');
+    gl?.getExtension('WEBGL_lose_context')?.loseContext();
+    return !!gl;
+  } catch (_) {
+    return false;
+  }
+}
+
+function start() {
   const near = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (e.isIntersecting) { e.target._wantOff = false; mount(e.target); }
@@ -54,4 +71,9 @@ if (sections.length) {
     entries.forEach((e) => { if (!e.isIntersecting) unmount(e.target); });
   }, { rootMargin: '260% 0px' });
   sections.forEach((s) => { near.observe(s); far.observe(s); });
+}
+
+if (sections.length) {
+  if (!hasWebGL()) fallbackAll();
+  else import('./three/core.js').then((core) => { mountStage = core.mountStage; start(); }).catch(fallbackAll);
 }
