@@ -483,7 +483,9 @@ export async function create(ctx) {
 
       /* ---------- camera: inquadra sempre tutti i pezzi ---------- */
       const el = 0.36 - pointer.y * 0.04 * idle;
-      const kV = 1 / (tanHalf * 0.8), kH = 1 / (tanHalf * aspect * 0.84);
+      /* la didascalia sta in alto nella card: la visiera va nella parte bassa (centro ottico spostato giù) */
+      camera.setViewOffset(w, h, 0, -0.1 * h, w, h);
+      const kV = 1 / (tanHalf * 0.62), kH = 1 / (tanHalf * aspect * 0.8);
       for (let i = 0; i < fit.length; i++) wFit[i].copy(fit[i][1]).applyMatrix4(fit[i][0].matrixWorld);
       fitView(wFit, el, kV, kH, view);
       if (!camInit || ctx.reduceMotion) { camD = view.d; camT.copy(view.t); camInit = true; }

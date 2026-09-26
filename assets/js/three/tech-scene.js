@@ -34,6 +34,8 @@ const TAU = Math.PI * 2;
 const V = (x = 0, y = 0, z = 0) => new THREE.Vector3(x, y, z);
 const outIn = (p, a0, a1, b0, b1) => easeInOutCubic(seg(p, a0, a1)) * (1 - easeInOutCubic(seg(p, b0, b1)));
 
+/* geometria senza indice (per unirle): le estrusioni lo sono già, niente avvisi */
+const flat = (g) => (g.index ? g.toNonIndexed() : g);
 function rbox(w, h, d, r, s = 3) {
   const m = Math.min(w, h, d) / 2 - 1e-4;
   return new RoundedBoxGeometry(w, h, d, s, Math.max(1e-4, Math.min(r, m)));
@@ -829,7 +831,7 @@ export async function create(ctx) {
       link(v, best, 0.85);
     });
     [...outer.vs, ...inner.vs].forEach((v) => parts.push(node.clone().translate(v.x, v.y, v.z)));
-    const nodesOnly = parts.map((g) => (g.index ? g.toNonIndexed() : g));
+    const nodesOnly = parts.map(flat);
     nodesOnly.forEach((g) => { if (g.attributes.uv) g.deleteAttribute('uv'); });
     return mergeGeometries(nodesOnly);
   })();
@@ -851,8 +853,7 @@ export async function create(ctx) {
     const g = new THREE.ExtrudeGeometry(s, { depth: 0.05, bevelEnabled: true, bevelSize: 0.005, bevelThickness: 0.006, bevelSegments: 2, curveSegments: 20 });
     g.translate(0, 0, -0.025);
     const boss = roundCyl(0.072, 0.1, 0.01, 40, 0.045).rotateX(Math.PI / 2);
-    [g, boss].forEach((x) => { if (x.index) return; });
-    const a = g.toNonIndexed(), b = boss.toNonIndexed();
+    const a = flat(g), b = flat(boss);
     return mergeGeometries([a, b].map((x) => { x.deleteAttribute('uv'); return x; }));
   })();
 
@@ -863,7 +864,7 @@ export async function create(ctx) {
     const r = fillet([[0.04, 0.04, 0.004], [0.26, 0.04, 0.03], [0.04, 0.21, 0.03]], 0.01, 4);
     const rib = new THREE.ExtrudeGeometry(new THREE.Shape(r), { depth: 0.026, bevelEnabled: true, bevelSize: 0.004, bevelThickness: 0.004, bevelSegments: 2 });
     rib.translate(0, 0, 0.062);
-    const out = mergeGeometries([g.toNonIndexed(), rib.toNonIndexed()].map((x) => { x.deleteAttribute('uv'); return x; }));
+    const out = mergeGeometries([flat(g), flat(rib)].map((x) => { x.deleteAttribute('uv'); return x; }));
     out.translate(-0.16, -0.12, -0.075);
     return out;
   })();
@@ -877,7 +878,7 @@ export async function create(ctx) {
       const f = new THREE.ExtrudeGeometry(face, { depth: 0.22, bevelEnabled: true, bevelSize: 0.02, bevelThickness: 0.02, bevelSegments: 2 });
       const c = new THREE.ExtrudeGeometry(channel, { depth: 0.14, bevelEnabled: true, bevelSize: 0.012, bevelThickness: 0.012, bevelSegments: 2 });
       f.applyMatrix4(r); c.applyMatrix4(r);
-      list.push(f.toNonIndexed(), c.toNonIndexed());
+      list.push(flat(f), flat(c));
     }
     const g = mergeGeometries(list.map((x) => { x.deleteAttribute('uv'); return x; }));
     g.translate(0, 0, -0.11);
