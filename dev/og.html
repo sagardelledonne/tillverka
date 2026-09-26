@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Anteprima social · Tillverka</title>
+<link rel="icon" href="data:,">
+<!-- Pagina per creare assets/img/og.jpg (1200×630): logo cromato della scena intro + titolo.
+     python dev/sheet.py ... oppure node: vedi dev/og.sh -->
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<style>
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #050506; }
+  section { position: relative; width: 1200px; height: 630px; }
+  .pin-sticky { position: absolute; inset: 0; }
+  canvas.stage { position: absolute; left: 0; top: -40px; width: 1200px; height: 630px; }
+  .glow { position: absolute; inset: 0; background: radial-gradient(60% 55% at 50% 38%, rgba(217,179,106,.10), transparent 70%); }
+  .txt { position: absolute; left: 0; right: 0; bottom: 64px; text-align: center; font-family: -apple-system, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif; }
+  .eyebrow { font-size: 15px; font-weight: 700; letter-spacing: .22em; color: #a1a1a6; text-transform: uppercase; }
+  .eyebrow i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #9fb46a; margin-right: 12px; vertical-align: 2px; }
+  h1 { margin: 16px 0 0; font-size: 66px; font-weight: 700; letter-spacing: -.035em; line-height: 1;
+       background: linear-gradient(100deg, #ffffff 0%, #f5f5f7 38%, #9a9ba1 52%, #ffffff 64%, #d9dadd 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+</style>
+</head>
+<body>
+<section data-pin data-stage="intro" id="s">
+  <div class="pin-sticky"><div class="glow"></div><canvas class="stage" aria-hidden="true"></canvas></div>
+  <div class="txt"><div class="eyebrow"><i></i>Tillverka · Digital fabrication lab · Milano</div><h1>Dal pensiero alla materia.</h1></div>
+</section>
+<script type="module">
+  import { mountStage } from '../assets/js/three/core.js';
+  const s = document.getElementById('s');
+  mountStage({ section: s, canvas: s.querySelector('canvas'), overlay: s.querySelector('.pin-sticky'), load: () => import('../assets/js/three/intro-scene.js'), theme: 'dark' });
+</script>
+</body>
+</html>

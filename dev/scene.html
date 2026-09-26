@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prova scena · Tillverka</title>
+<link rel="icon" href="data:,">
+<!-- Pagina di prova per una sola scena 3D.
+     scene.html?name=intro|printer|anatomy|tech|works|audience|visor|lab  &theme=dark|light  &p=0.35 (blocca l'avanzamento)
+     Senza p: scorri, oppure usa lo slider in basso. -->
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<style>
+  html, body { margin: 0; background: #050506; color: #f5f5f7; font: 14px/1.4 system-ui, sans-serif; }
+  body.light { background: #f5f5f7; color: #1d1d1f; }
+  section[data-pin] { position: relative; height: 600svh; }
+  .pin-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+  canvas.stage { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .no-webgl::after { content: 'WebGL non disponibile / errore scena (vedi console)'; position: fixed; top: 40%; left: 0; right: 0; text-align: center; color: tomato; }
+  .callout { position: absolute; left: 0; top: 0; transform: translate(var(--x, -999px), var(--y, -999px)); pointer-events: none; }
+  .callout::before { content: ''; position: absolute; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: #d9b36a; box-shadow: 0 0 0 4px rgba(217,179,106,.25); }
+  .callout span { position: absolute; left: 14px; top: -9px; white-space: nowrap; font-size: 12px; background: rgba(0,0,0,.55); color: #fff; padding: 2px 6px; border-radius: 6px; }
+  .callout[data-visible="false"] { opacity: .15; }
+  #hud { position: fixed; left: 12px; right: 12px; bottom: 12px; display: flex; gap: 10px; align-items: center; z-index: 9; background: rgba(0,0,0,.6); color: #fff; padding: 8px 12px; border-radius: 12px; }
+  #hud input { flex: 1; }
+</style>
+</head>
+<body>
+<section data-pin data-stage="intro" id="s">
+  <div class="pin-sticky">
+    <canvas class="stage" aria-hidden="true"></canvas>
+    <div class="callouts"></div>
+  </div>
+</section>
+<div id="hud"><b id="name"></b> p <input id="sl" type="range" min="0" max="1" step="0.001" value="0"> <output id="out">0</output></div>
+<script>
+  /* errori visibili anche nelle foto di controllo (dev/shot.sh) */
+  (function () {
+    const box = () => { let b = document.getElementById('errs'); if (!b) { b = document.createElement('pre'); b.id = 'errs'; b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99;margin:0;padding:8px;background:#300;color:#f88;font:12px monospace;white-space:pre-wrap;max-height:40vh;overflow:auto'; document.documentElement.appendChild(b); } return b; };
+    /* l'avviso KHR_parallel_shader_compile arriva solo dal WebGL software delle foto: non è un errore */
+    const show = (m) => { if (!/KHR_parallel_shader_compile/.test(m)) box().textContent += m + '\n'; };
+    addEventListener('error', (e) => show('ERRORE: ' + (e.message || e) + (e.filename ? ' @ ' + e.filename.split('/').pop() + ':' + e.lineno : '')));
+    addEventListener('unhandledrejection', (e) => show('PROMISE: ' + (e.reason && (e.reason.stack || e.reason.message) || e.reason)));
+    const w = console.warn, er = console.error;
+    console.warn = (...a) => { show('WARN: ' + a.map((x) => (x && x.stack) || x).join(' ')); w(...a); };
+    console.error = (...a) => { show('CONSOLE.ERROR: ' + a.map((x) => (x && x.stack) || x).join(' ')); er(...a); };
+  })();
+</script>
+<script type="module">
+  import { watchPins, progressOf } from '../assets/js/scroll.js';
+  import { mountStage } from '../assets/js/three/core.js';
+  const q = new URLSearchParams(location.search);
+  const name = q.get('name') || 'intro';
+  const theme = q.get('theme') || (['printer', 'tech', 'visor'].includes(name) ? 'light' : 'dark');
+  const s = document.getElementById('s');
+  s.dataset.stage = name; s.dataset.theme = theme;
+  if (theme === 'light') document.body.classList.add('light');
+  document.getElementById('name').textContent = name + ' · ' + theme;
+  /* segnaposto per le etichette della stampante (nel sito vero le scrive index.html) */
+  const parts = {
+    printer: ['enclosure', 'frame', 'gantry', 'toolhead', 'bed', 'spools'],
+    anatomy: ['skin', 'walls', 'infill', 'supports', 'layers'],
+    tech: ['heatsink', 'heatbreak', 'heater', 'nozzle', 'lid', 'vat', 'screen', 'uvlight', 'plate'],
+    audience: ['housing', 'gears', 'shaft', 'bearings', 'screws', 'floors', 'facade', 'site'],
+    visor: ['band', 'clips', 'shield'],
+    lab: ['printers', 'scanner', 'desks', 'shelves']
+  }[name] || [];
+  s.querySelector('.callouts').innerHTML = parts.map((p) => `<div class="callout" data-part="${p}"><span>${p}</span></div>`).join('');
+  const load = () => (name === 'smoke' ? import('./smoke-scene.js') : import(`../assets/js/three/${name}-scene.js`));
+  mountStage({ section: s, canvas: s.querySelector('canvas'), overlay: s.querySelector('.pin-sticky'), load, theme });
+  watchPins();
+  const sl = document.getElementById('sl'), out = document.getElementById('out');
+  const span = () => s.offsetHeight - innerHeight;
+  sl.addEventListener('input', () => scrollTo(0, s.offsetTop + span() * sl.value));
+  addEventListener('scroll', () => { const p = progressOf(s); sl.value = p; out.textContent = p.toFixed(3); }, { passive: true });
+  if (q.has('p')) { sl.value = q.get('p'); out.textContent = q.get('p'); }
+  if (q.get('hud') === '0') document.getElementById('hud').remove();
+</script>
+</body>
+</html>

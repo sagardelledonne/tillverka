@@ -1,0 +1,6 @@
+dev/shots/
+_ricerca/*.py
+node_modules/
+package-lock.json
+package.json
+dev/ill.html
