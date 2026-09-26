@@ -12,8 +12,10 @@ Da leggere per primo in una nuova chat/sessione. Poi `SPEC.md` (capitolato vinco
 - **Tecnica:** sito statico, niente build. `index.html` + CSS + moduli ES; Three.js 0.170 da jsdelivr (importmap).
   Si pubblicherà su GitHub Pages (`sagardelledonne.github.io/tillverka`), il workflow è già pronto in
   `.github/workflows/pages.yml` (pubblica solo `index.html` e `assets/`, a ogni push su `main`).
-- **Repo GitHub:** `sagardelledonne/tillverka` (**privato**). `main` contiene solo lo zip caricato da Sagar; tutto il
-  lavoro sta sul ramo `claude/sharp-goodall-1pnd38`. Unire su `main` = pubblicare: **solo con l'ok di Sagar**.
+- **Repo GitHub:** `sagardelledonne/tillverka` (**pubblico**). **Sito online dal 26/09/2026:**
+  https://sagardelledonne.github.io/tillverka/ (Settings → Pages → Source = GitHub Actions).
+  Ogni push su `main` ripubblica il sito in ~20 s (workflow "Pubblica sito"). Si lavora sul ramo
+  `claude/sharp-goodall-1pnd38`, poi pull request su `main` che **unisce Sagar** (la sessione non può pubblicare da sola).
 - **Cartella locale dell'utente:** una copia vecchia, del mattino del 26/09.
   L'utente lavora in sessioni online (cloud): il repo è la fonte di verità.
 
@@ -82,11 +84,9 @@ inglese (`python dev/full.py …`). Foto di riferimento dello stato: `docs/stato
 
 ## 5. Prossimi passi (in ordine)
 
-1. **Pubblicare** (Sagar ha dato l'ok il 26/09). Per GitHub Pages gratis il repo deve diventare pubblico: le note
-   attuali sono già senza dati personali (le versioni vecchie nella cronologia no: vedi la chat del 26/09). Poi Sagar,
-   dal sito di GitHub: Settings → General → Change visibility → Public; Settings → Pages → Source = **GitHub Actions**.
-   Infine unire `claude/sharp-goodall-1pnd38` su `main` (push): il workflow pubblica in 1–2 minuti su
-   `https://sagardelledonne.github.io/tillverka/`. Controllare che l'anteprima social mostri `og.jpg`.
+1. ~~Pubblicare~~ **fatto il 26/09** (PR #1 unita da Sagar, workflow verde). Il repo è pubblico: nella cronologia
+   restano le versioni vecchie di questo file con dati personali (Sagar lo sa e ha scelto di pubblicare così).
+   Da verificare su dispositivi veri (iPhone/Android) e l'anteprima social con `og.jpg` quando si condivide il link.
 2. Domande aperte per il cliente: il 392 632 3799 è anche WhatsApp? foto originali in alta risoluzione? dominio
    (tillverka.xyz oggi non funziona)? va bene la bozza di mission/vision? (e rilettura di testi e crediti)
 3. Se arriva un dominio: aggiornare `canonical`, `og:url`, `og:image`, `hreflang` e JSON-LD in `index.html`.
