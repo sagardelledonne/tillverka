@@ -557,14 +557,14 @@ export async function create(ctx) {
     camera.setViewOffset(w, h, -offX * w, offY * h, w, h);
     const availH = lerp(0.8, 0.44, desk), availV = lerp(0.42, 0.78, desk);
     const kV = 1 / (tanHalf * availV), kH = 1 / (tanHalf * aspect * availH);
-    if (w2 < 1) framer.fitView(fit1, lerp(0.3, 0.4, ex1), kV * 0.86, kH * 0.86, vH[0]);
+    if (w2 < 1) framer.fitView(fit1, lerp(0.3, 0.4, ex1), kV * 0.97, kH * 0.97, vH[0]);
     if (w2 > 0 && w3 < 1) {
       framer.fitView(fit2A, 0.62, kV * 0.82, kH * 0.82, vA);
       framer.fitView(fit2B, 0.5, kV, kH, vB);
       framer.blendView(vA, vB, E(T.sepA - 0.02, T.sepA + 0.08) * (1 - E(T.joinA, T.joinB)), vH[1]);
     }
     if (w3 > 0) {
-      framer.fitView(fit3A, 0.32, kV * 0.95, kH * 0.95, vA);
+      framer.fitView(fit3A, 0.32, kV * 1.06, kH * 1.06, vA);
       framer.fitView(fit3B, 0.28, kV, kH, vB);
       framer.blendView(vA, vB, E(T.vxA - 0.01, T.vxA + 0.03) * (1 - E(T.vjA, T.vjB)), vH[2]);
     }

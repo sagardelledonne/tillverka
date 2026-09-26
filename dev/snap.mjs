@@ -53,7 +53,9 @@ async function shoot(item) {
         document.documentElement.style.scrollBehavior = 'auto';
         const top = el.getBoundingClientRect().top + scrollY;
         const p = pv == null ? 0 : Math.min(1, Math.max(0, parseFloat(pv)));
-        const y = el.hasAttribute('data-pin') && pv != null ? top + (el.offsetHeight - innerHeight) * p : top;
+        /* sezione fissata: p come la scena; sezione normale: p = frazione della sua altezza da scorrere */
+        const pinned = el.hasAttribute('data-pin') && el.dataset.pin !== 'view';
+        const y = pv == null ? top : pinned ? top + (el.offsetHeight - innerHeight) * p : top + Math.max(0, el.offsetHeight - innerHeight * 0.6) * p;
         scrollTo(0, Math.round(y));
       }, id, pv);
     }
