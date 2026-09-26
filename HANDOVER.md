@@ -5,7 +5,7 @@ Da leggere per primo in una nuova chat/sessione. Poi `SPEC.md` (capitolato vinco
 ## 1. Il progetto in breve
 
 - **Cliente:** Tillverka Srl, laboratorio di progettazione e stampa 3D, via Andrea Maria Ampère 122, 20131 Milano
-  (Città Studi), P.IVA 10677210964. Azienda di Nicholas North, amico di Sagar (l'utente), che gli dà del tu.
+  (Città Studi), P.IVA 10677210964.
 - **Richiesta di Sagar:** un sito "capolavoro visivo" stile pagina prodotto Apple, con tante animazioni 3D guidate dallo
   scroll e **tante esplosioni** (stampante, logo, oggetti stampati), illustrazioni, qualità altissima; logo esistente
   animato; un bel focus su **mission e vision**.
@@ -14,8 +14,8 @@ Da leggere per primo in una nuova chat/sessione. Poi `SPEC.md` (capitolato vinco
   `.github/workflows/pages.yml` (pubblica solo `index.html` e `assets/`, a ogni push su `main`).
 - **Repo GitHub:** `sagardelledonne/tillverka` (**privato**). `main` contiene solo lo zip caricato da Sagar; tutto il
   lavoro sta sul ramo `claude/sharp-goodall-1pnd38`. Unire su `main` = pubblicare: **solo con l'ok di Sagar**.
-- **Cartella locale di Sagar:** `C:\Users\boate\projects\tillverka` (copia vecchia, del mattino del 26/09).
-  Sagar lavora in sessioni online (cloud) per via dei limiti del piano: il repo è la fonte di verità.
+- **Cartella locale dell'utente:** una copia vecchia, del mattino del 26/09.
+  L'utente lavora in sessioni online (cloud): il repo è la fonte di verità.
 
 ## 2. Decisioni prese con Sagar (non rimetterle in discussione)
 
@@ -82,17 +82,17 @@ inglese (`python dev/full.py …`). Foto di riferimento dello stato: `docs/stato
 
 ## 5. Prossimi passi (in ordine)
 
-1. **Pubblicare** (solo dopo l'ok di Sagar). Per GitHub Pages gratis il repo deve diventare pubblico: prima togliere
-   da questo file e da SPEC.md le note personali (nomi, piano, limiti) o spostarle altrove. Poi Sagar, dal sito di
-   GitHub: Settings → General → Change visibility → Public; Settings → Pages → Source = **GitHub Actions**.
+1. **Pubblicare** (Sagar ha dato l'ok il 26/09). Per GitHub Pages gratis il repo deve diventare pubblico: le note
+   attuali sono già senza dati personali (le versioni vecchie nella cronologia no: vedi la chat del 26/09). Poi Sagar,
+   dal sito di GitHub: Settings → General → Change visibility → Public; Settings → Pages → Source = **GitHub Actions**.
    Infine unire `claude/sharp-goodall-1pnd38` su `main` (push): il workflow pubblica in 1–2 minuti su
    `https://sagardelledonne.github.io/tillverka/`. Controllare che l'anteprima social mostri `og.jpg`.
-2. Domande aperte per Nicholas: il 392 632 3799 è anche WhatsApp? foto originali in alta risoluzione? dominio
+2. Domande aperte per il cliente: il 392 632 3799 è anche WhatsApp? foto originali in alta risoluzione? dominio
    (tillverka.xyz oggi non funziona)? va bene la bozza di mission/vision? (e rilettura di testi e crediti)
 3. Se arriva un dominio: aggiornare `canonical`, `og:url`, `og:image`, `hreflang` e JSON-LD in `index.html`.
 
 ## 6. Come lavorare con Sagar
 
 Non è un programmatore: spiegazioni semplici, in italiano, senza gergo, un passo alla volta; fargli vedere immagini
-del risultato. Vuole la massima qualità ("capolavoro", "tante esplosioni"). Attenzione ai consumi: sul suo piano Pro
-tanti agenti in parallelo hanno esaurito il limite più volte → salvare subito i file e procedere a pezzi.
+del risultato. Vuole la massima qualità ("capolavoro", "tante esplosioni"). Lavorare a pezzi e salvare spesso
+(commit e push dopo ogni parte), senza tanti agenti in parallelo.
