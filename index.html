@@ -1,0 +1,1069 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tillverka — Progettazione e stampa 3D a Milano</title>
+<meta name="description" content="Tillverka è un laboratorio di progettazione e stampa 3D a Milano: scansione, modellazione e stampa 3D per aziende, designer, artisti e architetti. Chiedi un preventivo.">
+<link rel="canonical" href="https://sagardelledonne.github.io/tillverka/">
+<link rel="alternate" hreflang="it" href="https://sagardelledonne.github.io/tillverka/">
+<link rel="alternate" hreflang="en" href="https://sagardelledonne.github.io/tillverka/?lang=en">
+<meta name="theme-color" content="#050506">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tillverka">
+<meta property="og:locale" content="it_IT">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:url" content="https://sagardelledonne.github.io/tillverka/">
+<meta property="og:title" content="Tillverka — Progettazione e stampa 3D a Milano">
+<meta property="og:description" content="Dal pensiero alla materia. Scansione, modellazione e stampa 3D per aziende, designer e architetti.">
+<meta property="og:image" content="https://sagardelledonne.github.io/tillverka/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Tillverka Srl",
+  "alternateName": "Tillverka",
+  "description": "Laboratorio di progettazione e stampa 3D a Milano: scansione, modellazione e stampa 3D.",
+  "url": "https://sagardelledonne.github.io/tillverka/",
+  "image": "https://sagardelledonne.github.io/tillverka/assets/img/og.jpg",
+  "logo": "https://sagardelledonne.github.io/tillverka/assets/img/favicon.svg",
+  "telephone": "+393926323799",
+  "email": "3d@tillverka.xyz",
+  "vatID": "IT10677210964",
+  "foundingDate": "2019",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Via Andrea Maria Ampère 122",
+    "postalCode": "20131",
+    "addressLocality": "Milano",
+    "addressRegion": "MI",
+    "addressCountry": "IT"
+  },
+  "knowsAbout": ["Scansione 3D", "Modellazione 3D", "Stampa 3D"],
+  "sameAs": [
+    "https://www.instagram.com/tillverka3d/",
+    "https://www.facebook.com/tillverka3d/",
+    "https://www.linkedin.com/company/tillverka3d/"
+  ]
+}
+</script>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<script>
+  document.documentElement.classList.add('js');
+  /* solo per le foto di controllo (?at= o ?debug): gli errori compaiono in un riquadro rosso */
+  if (/[?&](at|debug)=/.test(location.search)) (function () {
+    var box = function () { var b = document.getElementById('errs'); if (!b) { b = document.createElement('pre'); b.id = 'errs'; b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999;margin:0;padding:8px;background:#300;color:#f88;font:12px monospace;white-space:pre-wrap;max-height:40vh;overflow:auto'; document.documentElement.appendChild(b); } return b; };
+    addEventListener('error', function (e) { box().textContent += 'ERRORE: ' + (e.message || e) + (e.filename ? ' @ ' + e.filename.split('/').pop() + ':' + e.lineno : '') + '\n'; });
+    addEventListener('unhandledrejection', function (e) { box().textContent += 'PROMISE: ' + ((e.reason && (e.reason.stack || e.reason.message)) || e.reason) + '\n'; });
+  })();
+</script>
+<link rel="stylesheet" href="assets/css/style.css">
+<script type="module" src="assets/js/main.js"></script>
+<script type="module" src="assets/js/stages.js"></script>
+</head>
+<body>
+
+<!-- simboli riusati: logo (facce + canali) e gradienti "argento vivo" -->
+<svg class="sprite" aria-hidden="true" focusable="false" width="0" height="0">
+  <defs>
+    <linearGradient id="g-chrome" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".28" stop-color="#9ea2a8"/>
+      <stop offset=".5" stop-color="#f4f5f7"/>
+      <stop offset=".72" stop-color="#6f7379"/>
+      <stop offset="1" stop-color="#d9dce0"/>
+    </linearGradient>
+    <linearGradient id="g-graphite" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#34363b"/>
+      <stop offset="1" stop-color="#1b1c1f"/>
+    </linearGradient>
+    <linearGradient id="g-smoke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2d3036" stop-opacity=".92"/>
+      <stop offset=".55" stop-color="#15161a" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#26282d" stop-opacity=".9"/>
+    </linearGradient>
+    <radialGradient id="g-glow">
+      <stop offset="0" stop-color="#ffc978" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#ffc978" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g-shadow">
+      <stop offset="0" stop-color="#000" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="p-dots" width="5" height="5" patternUnits="userSpaceOnUse">
+      <circle cx="2.5" cy="2.5" r="1" fill="#c9ccd1"/>
+    </pattern>
+  </defs>
+  <symbol id="logo" viewBox="-93.5 -99.1 184.4 168.9">
+    <path class="lf" d="M-89.50 35.25 L-60.00 65.75 L-26.25 65.75 L-19.50 59.00 L13.75 59.00 L33.75 38.25 L17.00 13.75 L0.00 34.50 Z"/>
+    <path class="lc" d="M-89.50 34.00 L-75.00 19.50 L-26.25 19.50 L-18.75 13.25 L15.50 13.25 L-0.50 33.75 Z"/>
+    <path class="lf" d="M14.22 -95.13 L-26.94 -84.84 L-43.82 -55.61 L-41.35 -46.39 L-57.97 -17.59 L-50.00 10.10 L-20.41 7.85 L-29.88 -17.25 Z"/>
+    <path class="lc" d="M15.31 -94.51 L20.61 -74.70 L-3.76 -32.48 L-2.10 -22.86 L-19.22 6.80 L-28.98 -17.31 Z"/>
+    <path class="lf" d="M75.28 59.88 L86.94 19.09 L70.07 -10.14 L60.85 -12.61 L44.22 -41.41 L16.25 -48.35 L3.41 -21.60 L29.88 -17.25 Z"/>
+    <path class="lc" d="M74.19 60.51 L54.39 55.20 L30.01 12.98 L20.85 9.61 L3.72 -20.05 L29.48 -16.44 Z"/>
+  </symbol>
+</svg>
+
+<a class="skip" href="#main" data-i18n="a11y.skip">Salta al contenuto</a>
+
+<!-- ============ NAVIGAZIONE ============ -->
+<header class="nav" id="nav" data-tone="dark">
+  <div class="nav-in">
+    <a class="brand" href="#intro" aria-label="Tillverka, inizio pagina" data-i18n-attr="aria-label:nav.home">
+      <svg class="logo" aria-hidden="true"><use href="#logo"/></svg>
+      <span>Tillverka</span>
+    </a>
+    <nav class="menu" id="menu" aria-label="Sezioni" data-i18n-attr="aria-label:nav.label">
+      <ul>
+        <li><a href="#macchina" data-i18n="nav.macchina">Macchina</a></li>
+        <li><a href="#tecnologie" data-i18n="nav.tecnologie">Tecnologie</a></li>
+        <li><a href="#lavori" data-i18n="nav.lavori">Lavori</a></li>
+        <li><a href="#perchi" data-i18n="nav.perchi">Per chi</a></li>
+        <li><a href="#storia" data-i18n="nav.storia">Storia</a></li>
+        <li><a href="#contatti" data-i18n="nav.contatti">Contatti</a></li>
+      </ul>
+      <a class="menu-cta btn btn-gold" href="#preventivo" data-i18n="cta.quote">Chiedi un preventivo</a>
+    </nav>
+    <div class="nav-tools">
+      <div class="lang" role="group" aria-label="Lingua" data-i18n-attr="aria-label:nav.lang">
+        <button type="button" data-lang="it" aria-pressed="true" lang="it" aria-label="Italiano">IT</button>
+        <button type="button" data-lang="en" aria-pressed="false" lang="en" aria-label="English">EN</button>
+      </div>
+      <a class="pill-gold" href="#preventivo" data-i18n="nav.quote">Preventivo</a>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Apri il menu" data-i18n-attr="aria-label:nav.open">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ 1 · INTRO (logo 3D, hero, missione, visione) ============ -->
+<section id="intro" class="pin dark" data-pin data-stage="intro" data-theme="dark" data-tone="dark" style="--pin:7" aria-labelledby="hero-title">
+  <div class="pin-sticky">
+    <canvas class="stage" aria-hidden="true"></canvas>
+    <div class="stage-fallback fb-logo" aria-hidden="true">
+      <svg class="logo"><use href="#logo"/></svg>
+    </div>
+
+    <div class="step s-hero" data-from="0" data-to="0.14">
+      <p class="eyebrow" data-i18n="hero.eyebrow">Tillverka · Digital fabrication lab · Milano</p>
+      <h1 class="h-hero" id="hero-title" data-i18n="hero.title">Dal pensiero alla <span class="chrome">materia</span>.</h1>
+      <p class="lead" data-i18n="hero.lead">Scansione, modellazione e stampa 3D per aziende, designer e architetti.</p>
+      <div class="actions">
+        <a class="btn btn-gold" href="#preventivo" data-i18n="cta.quote">Chiedi un preventivo</a>
+        <a class="btn btn-ghost" href="#lavori" data-i18n="hero.works">Guarda i lavori</a>
+      </div>
+      <p class="scroll-cue" aria-hidden="true"><span data-i18n="hero.scroll">Scorri</span><i></i></p>
+    </div>
+
+    <div class="step s-left s-name" data-from="0.14" data-to="0.26">
+      <p class="dict"><span class="dict-word">till·ver·ka</span> <span class="dict-kind" data-i18n="name.kind">verbo · svedese</span></p>
+      <h2 class="h-xl">Tillverka.</h2>
+      <p class="h-md" data-i18n="name.means">In svedese vuol dire <span class="chrome">fabbricare</span>.</p>
+    </div>
+
+    <div class="step s-left s-statement" data-from="0.26" data-to="0.42">
+      <p class="eyebrow" data-i18n="mission.label">La missione</p>
+      <p class="statement lit" data-i18n="mission.text">Rendere la fabbricazione digitale una tecnologia di tutti i giorni. Dal pensiero alla realtà, per oggetti di qualsiasi tipo.</p>
+    </div>
+
+    <div class="step s-left s-pillar" data-from="0.42" data-to="0.52" style="--k:0">
+      <div class="rail" aria-hidden="true"><i></i><i></i><i></i></div>
+      <p class="pillar-kicker"><b>01</b> <span data-i18n="p1.name">Scansione 3D</span></p>
+      <h2 class="h-lg" data-i18n="p1.claim">Dal reale al digitale.</h2>
+      <p class="body" data-i18n="p1.text">Un oggetto che esiste diventa un modello digitale fedele: da studiare, modificare, riprodurre.</p>
+    </div>
+
+    <div class="step s-left s-pillar" data-from="0.52" data-to="0.62" style="--k:1">
+      <div class="rail" aria-hidden="true"><i></i><i></i><i></i></div>
+      <p class="pillar-kicker"><b>02</b> <span data-i18n="p2.name">Modellazione 3D</span></p>
+      <h2 class="h-lg" data-i18n="p2.claim">Dall’idea al file.</h2>
+      <p class="body" data-i18n="p2.text">Da uno schizzo, una foto o un’intuizione: disegniamo il modello e lo prepariamo per la stampa.</p>
+    </div>
+
+    <div class="step s-left s-pillar" data-from="0.62" data-to="0.72" style="--k:2">
+      <div class="rail" aria-hidden="true"><i></i><i></i><i></i></div>
+      <p class="pillar-kicker"><b>03</b> <span data-i18n="p3.name">Stampa 3D</span></p>
+      <h2 class="h-lg" data-i18n="p3.claim">Dal file all’oggetto.</h2>
+      <p class="body" data-i18n="p3.text">Filamento, resina o nylon: scegliamo la tecnologia e il materiale giusti per il tuo pezzo, strato dopo strato.</p>
+    </div>
+
+    <div class="step s-left s-statement" data-from="0.72" data-to="0.88">
+      <p class="eyebrow" data-i18n="vision.label">La visione</p>
+      <p class="statement lit" data-i18n="vision.text">Chi progetta — un’azienda, un designer, un architetto — deve poter toccare la propria idea il giorno dopo averla pensata.</p>
+    </div>
+
+    <div class="step s-hero s-finale" data-from="0.88" data-to="1">
+      <h2 class="h-xl" data-i18n="finale.title">Tre gesti. Un solo verbo: <span class="chrome">fabbricare</span>.</h2>
+      <p class="lead" data-i18n="finale.lead">Scansione, modellazione e stampa: tre pezzi che si incastrano.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2 · LA MACCHINA (stampante che esplode) ============ -->
+<section id="macchina" class="pin light" data-pin data-stage="printer" data-theme="light" data-tone="light" style="--pin:6" aria-labelledby="macchina-title">
+  <div class="pin-sticky">
+    <canvas class="stage" aria-hidden="true"></canvas>
+    <div class="stage-fallback fb-printer" aria-hidden="true">
+      <svg viewBox="0 0 440 540">
+        <ellipse cx="220" cy="508" rx="190" ry="16" fill="url(#g-shadow)"/>
+        <!-- unità bobine -->
+        <rect x="68" y="34" width="304" height="86" rx="16" fill="url(#g-graphite)"/>
+        <rect x="68.75" y="34.75" width="302.5" height="84.5" rx="15.5" fill="none" stroke="#c9ccd1" stroke-opacity=".55" stroke-width="1.5"/>
+        <rect x="82" y="46" width="276" height="62" rx="10" fill="url(#g-smoke)"/>
+        <g class="spools">
+          <g transform="translate(116.5 77)"><circle r="26" fill="#e9ebee"/><circle r="26" fill="url(#g-chrome)" opacity=".85"/><circle r="9" fill="#101113"/><circle r="26" fill="none" stroke="#fff" stroke-opacity=".5"/></g>
+          <g transform="translate(185.5 77)"><circle r="26" fill="#d9b36a"/><circle r="26" fill="none" stroke="#ecd08f"/><circle r="9" fill="#101113"/></g>
+          <g transform="translate(254.5 77)"><circle r="26" fill="#9fb46a"/><circle r="26" fill="none" stroke="#c4d494" stroke-opacity=".8"/><circle r="9" fill="#101113"/></g>
+          <g transform="translate(323.5 77)"><circle r="26" fill="#18191b"/><circle r="26" fill="none" stroke="#5a5c61"/><circle r="9" fill="#0a0a0b"/></g>
+        </g>
+        <!-- scocca -->
+        <rect x="56" y="128" width="328" height="360" rx="20" fill="url(#g-graphite)"/>
+        <rect x="56.75" y="128.75" width="326.5" height="358.5" rx="19.5" fill="none" stroke="#c9ccd1" stroke-width="1.5"/>
+        <path d="M76 129.5 H364" stroke="#fff" stroke-opacity=".35"/>
+        <!-- porta in vetro fumé con l'interno -->
+        <rect x="76" y="148" width="288" height="270" rx="12" fill="url(#g-smoke)"/>
+        <g opacity=".95">
+          <rect x="90" y="166" width="4" height="200" rx="2" fill="#8d9096"/>
+          <rect x="346" y="166" width="4" height="200" rx="2" fill="#8d9096"/>
+          <rect x="90" y="196" width="260" height="6" rx="3" fill="#c3c6cb"/>
+          <rect x="198" y="182" width="44" height="38" rx="7" fill="#3c3e44" stroke="#8d9096" stroke-opacity=".6"/>
+          <path d="M214 220 h12 l-3 9 h-6 z" fill="#d9b36a"/>
+          <circle cx="220" cy="232" r="10" fill="url(#g-glow)"/>
+          <rect x="118" y="352" width="204" height="10" rx="3" fill="#9a9da3"/>
+          <rect x="118" y="352" width="204" height="2" rx="1" fill="#e7e9ec"/>
+          <g transform="translate(220 332) scale(.2)"><use href="#logo" x="-93.5" y="-99.1" width="184.4" height="168.9" class="mini-print"/></g>
+        </g>
+        <rect x="76.5" y="148.5" width="287" height="269" rx="11.5" fill="none" stroke="#fff" stroke-opacity=".22"/>
+        <path d="M86 160 L150 160" stroke="#fff" stroke-opacity=".18" stroke-width="2" stroke-linecap="round"/>
+        <rect x="350" y="252" width="5" height="64" rx="2.5" fill="#d7d9dd"/>
+        <!-- schermo e logo sul frontale -->
+        <rect x="84" y="432" width="84" height="40" rx="7" fill="#0c0d0f" stroke="#4a4c52"/>
+        <path d="M94 452 h36" stroke="#d9b36a" stroke-width="2" stroke-linecap="round"/>
+        <path d="M94 460 h54" stroke="#6e7177" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="156" cy="444" r="3" fill="#9fb46a"/>
+        <g transform="translate(346 452) scale(.12)"><use href="#logo" x="-93.5" y="-99.1" width="184.4" height="168.9" class="front-logo"/></g>
+        <rect x="80" y="488" width="44" height="8" rx="3" fill="#1b1c1f"/>
+        <rect x="316" y="488" width="44" height="8" rx="3" fill="#1b1c1f"/>
+      </svg>
+    </div>
+
+    <div class="step s-left s-top" data-from="0" data-to="0.12">
+      <p class="eyebrow" data-i18n="m.eyebrow">Dentro la stampa</p>
+      <h2 class="h-xl" id="macchina-title" data-i18n="m.title">La macchina.</h2>
+      <p class="lead" data-i18n="m.lead">Ogni dettaglio conta, anche quelli che non vedi. Scorri e guardala aprirsi.</p>
+    </div>
+
+    <div class="step s-left s-exploded" data-from="0.12" data-to="0.5">
+      <p class="eyebrow" data-i18n="m.exploded">Vista esplosa</p>
+      <h3 class="h-lg" data-i18n="m.exploded.text">Ogni gruppo ha un compito preciso.</h3>
+      <!-- legenda: ogni voce si accende quando compare la sua etichetta sul 3D (stessi tempi dei callout) -->
+      <ol class="legend">
+        <li style="--t:.053"><span>01</span><b data-i18n="c.enclosure">Scocca e vetro</b></li>
+        <li style="--t:.21"><span>02</span><b data-i18n="c.spools">Bobine</b></li>
+        <li style="--t:.368"><span>03</span><b data-i18n="c.gantry">Assi CoreXY</b></li>
+        <li style="--t:.474"><span>04</span><b data-i18n="c.toolhead">Testina e ugello</b></li>
+        <li style="--t:.579"><span>05</span><b data-i18n="c.bed">Piatto</b></li>
+        <li style="--t:.737"><span>06</span><b data-i18n="c.frame">Telaio</b></li>
+      </ol>
+    </div>
+
+    <div class="callout" data-part="enclosure" data-from="0.14" data-to="0.5">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="c.enclosure">Scocca e vetro</b><small data-i18n="c.enclosure.sub">Pannelli fumé, porta frontale</small></span>
+    </div>
+    <div class="callout" data-part="spools" data-from="0.2" data-to="0.5">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="c.spools">Bobine</b><small data-i18n="c.spools.sub">Quattro materiali, un solo lavoro</small></span>
+    </div>
+    <div class="callout" data-part="gantry" data-from="0.26" data-to="0.5">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="c.gantry">Assi CoreXY</b><small data-i18n="c.gantry.sub">Cinghie e barre lucide</small></span>
+    </div>
+    <div class="callout" data-part="toolhead" data-from="0.3" data-to="0.5">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="c.toolhead">Testina e ugello</b><small data-i18n="c.toolhead.sub">Dove il filamento prende forma</small></span>
+    </div>
+    <div class="callout" data-part="bed" data-from="0.34" data-to="0.5">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="c.bed">Piatto</b><small data-i18n="c.bed.sub">Dove nasce il pezzo</small></span>
+    </div>
+    <div class="callout" data-part="frame" data-from="0.4" data-to="0.5">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="c.frame">Telaio</b><small data-i18n="c.frame.sub">Il riferimento di tutto</small></span>
+    </div>
+
+    <div class="step s-left" data-from="0.5" data-to="0.64">
+      <h2 class="h-xl" data-i18n="m.place">Ogni pezzo al suo posto.</h2>
+      <p class="lead" data-i18n="m.place.lead">Tolleranze, incastri, finiture: la cura si vede nei dettagli.</p>
+    </div>
+
+    <div class="step s-left" data-from="0.64" data-to="0.82">
+      <p class="eyebrow" data-i18n="m.print.eyebrow">In stampa</p>
+      <h2 class="h-xl" data-i18n="m.layers">Strato dopo strato.</h2>
+      <p class="lead" data-i18n="m.layers.lead">Il file diventa un percorso: la testina lo traccia, un livello alla volta.</p>
+    </div>
+
+    <div class="step s-left" data-from="0.82" data-to="1">
+      <h2 class="h-xl" data-i18n="m.done">Dal file al pezzo finito.</h2>
+      <p class="lead" data-i18n="m.done.lead">Anche il tuo.</p>
+      <p><a class="link-arrow" href="#preventivo" data-i18n="cta.quote.arrow">Chiedi un preventivo</a></p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ 3 · ANATOMIA DI UN PEZZO (sezione, vista esplosa, riempimento) ============ -->
+<section id="anatomia" class="pin dark" data-pin data-stage="anatomy" data-theme="dark" data-tone="dark" style="--pin:5" aria-labelledby="anatomia-title">
+  <div class="pin-sticky">
+    <canvas class="stage" aria-hidden="true"></canvas>
+    <div class="stage-fallback fb-draw fb-anatomy" aria-hidden="true"><!--FB:anatomy--></div>
+
+    <div class="step s-left s-top" data-from="0" data-to="0.12">
+      <p class="eyebrow" data-i18n="an.eyebrow">Sotto la superficie</p>
+      <h2 class="h-xl" id="anatomia-title" data-i18n="an.title">Anatomia di un pezzo.</h2>
+      <p class="lead" data-i18n="an.lead">Una staffa in PLA argento. Guardala da vicino: ogni riga è uno strato.</p>
+    </div>
+
+    <div class="step s-left" data-from="0.12" data-to="0.3">
+      <p class="eyebrow" data-i18n="an.cut.eyebrow">In sezione</p>
+      <h2 class="h-xl" data-i18n="an.cut">Dentro, non è pieno.</h2>
+      <p class="lead" data-i18n="an.cut.lead">Pareti compatte fuori, una struttura leggera dentro: il pezzo pesa meno e resta solido.</p>
+    </div>
+
+    <div class="step s-left s-exploded" data-from="0.3" data-to="0.62">
+      <p class="eyebrow" data-i18n="m.exploded">Vista esplosa</p>
+      <h3 class="h-lg" data-i18n="an.exploded">Cinque parti, un solo pezzo.</h3>
+      <ol class="legend">
+        <li style="--t:.094"><span>01</span><b data-i18n="an.c.skin">Superficie</b></li>
+        <li style="--t:.188"><span>02</span><b data-i18n="an.c.walls">Pareti</b></li>
+        <li style="--t:.281"><span>03</span><b data-i18n="an.c.infill">Riempimento</b></li>
+        <li style="--t:.375"><span>04</span><b data-i18n="an.c.supports">Supporti</b></li>
+        <li style="--t:.469"><span>05</span><b data-i18n="an.c.layers">Strati</b></li>
+      </ol>
+    </div>
+
+    <div class="callout" data-part="skin" data-from="0.33" data-to="0.62">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="an.c.skin">Superficie</b><small data-i18n="an.c.skin.sub">Strati pieni, sopra e sotto</small></span>
+    </div>
+    <div class="callout" data-part="walls" data-from="0.36" data-to="0.62">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="an.c.walls">Pareti</b><small data-i18n="an.c.walls.sub">Perimetri concentrici</small></span>
+    </div>
+    <div class="callout" data-part="infill" data-from="0.39" data-to="0.62">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="an.c.infill">Riempimento</b><small data-i18n="an.c.infill.sub">Gyroid, rigido in ogni direzione</small></span>
+    </div>
+    <div class="callout" data-part="supports" data-from="0.42" data-to="0.62">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="an.c.supports">Supporti</b><small data-i18n="an.c.supports.sub">Ad albero, si staccano dopo</small></span>
+    </div>
+    <div class="callout" data-part="layers" data-from="0.45" data-to="0.62">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="an.c.layers">Strati</b><small data-i18n="an.c.layers.sub">Uno sopra l’altro, in decimi di millimetro</small></span>
+    </div>
+
+    <div class="step s-left" data-from="0.62" data-to="0.8">
+      <p class="eyebrow" data-i18n="an.infill.eyebrow">Riempimento su misura</p>
+      <h2 class="h-lg" data-i18n="an.infill">Leggero o robusto: lo decidiamo insieme.</h2>
+      <ol class="infill-pick" aria-hidden="true">
+        <li style="--a:0"><svg viewBox="0 0 48 48"><path d="M0 12H48M0 24H48M0 36H48M12 0V48M24 0V48M36 0V48"/></svg><span data-i18n="an.pat.grid">Griglia</span></li>
+        <li style="--a:1"><svg viewBox="0 0 48 48"><path d="M6 3 13 3 16.5 9 13 15 6 15 2.5 9Z M16.5 9 23.5 9 27 15 23.5 21 16.5 21 13 15Z M27 3 34 3 37.5 9 34 15 27 15 23.5 9Z M37.5 9 44.5 9 48 15 44.5 21 37.5 21 34 15Z M6 15 13 15 16.5 21 13 27 6 27 2.5 21Z M27 15 34 15 37.5 21 34 27 27 27 23.5 21Z M16.5 21 23.5 21 27 27 23.5 33 16.5 33 13 27Z M37.5 21 44.5 21 48 27 44.5 33 37.5 33 34 27Z M6 27 13 27 16.5 33 13 39 6 39 2.5 33Z M27 27 34 27 37.5 33 34 39 27 39 23.5 33Z M16.5 33 23.5 33 27 39 23.5 45 16.5 45 13 39Z M37.5 33 44.5 33 48 39 44.5 45 37.5 45 34 39Z"/></svg><span data-i18n="an.pat.honey">Nido d’ape</span></li>
+        <li style="--a:2"><svg viewBox="0 0 48 48"><path d="M0 6C6 -2 10 14 16 6S26 -2 32 6 42 14 48 6M0 18C6 10 10 26 16 18S26 10 32 18 42 26 48 18M0 30C6 22 10 38 16 30S26 22 32 30 42 38 48 30M0 42C6 34 10 50 16 42S26 34 32 42 42 50 48 42"/></svg><span>Gyroid</span></li>
+      </ol>
+    </div>
+
+    <div class="step s-left" data-from="0.8" data-to="1">
+      <h2 class="h-xl" data-i18n="an.end">Ogni pezzo, pensato fino all’ultimo strato.</h2>
+      <p class="lead" data-i18n="an.end.lead">Pareti, riempimento, orientamento: scelte che non vedi, ma che senti in mano.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ 4 · TRE TECNOLOGIE (filamento, resina, nylon) ============ -->
+<section id="tecnologie" class="pin light" data-pin data-stage="tech" data-theme="light" data-tone="light" data-segs="0.33,0.66" style="--pin:7" aria-labelledby="tecnologie-title">
+  <div class="pin-sticky">
+    <canvas class="stage" aria-hidden="true"></canvas>
+    <div class="stage-fallback fb-draw fb-segs" aria-hidden="true"><!--FB:tech--></div>
+
+    <div class="seg-index">
+      <h2 class="seg-title" id="tecnologie-title" data-i18n="t.title">Tre tecnologie</h2>
+      <ol aria-hidden="true">
+        <li style="--s:var(--s0)"><span>01</span> <b data-i18n="t1.short">Filamento</b><i></i></li>
+        <li style="--s:var(--s1)"><span>02</span> <b data-i18n="t2.short">Resina</b><i></i></li>
+        <li style="--s:var(--s2)"><span>03</span> <b data-i18n="t3.short">Nylon</b><i></i></li>
+      </ol>
+    </div>
+
+    <div class="step s-left s-seg" data-from="0" data-to="0.33">
+      <p class="seg-kicker"><b>01</b> <span data-i18n="t1.kicker">Filamento · FDM</span></p>
+      <h3 class="h-xl" data-i18n="t1.title">Robusto, veloce, versatile.</h3>
+      <p class="lead" data-i18n="t1.lead">PLA, PETG, PLA alluminio.</p>
+      <p class="body" data-i18n="t1.text">Il filo entra freddo, fonde nell’ugello e si posa in un cordolo sottile, strato dopo strato.</p>
+      <ul class="chips chips-line"><li>Bambu Lab</li><li>Prusa MK3S+</li></ul>
+    </div>
+    <div class="callout" data-part="heatsink" data-from="0.08" data-to="0.3">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="t.c.heatsink">Dissipatore</b><small data-i18n="t.c.heatsink.sub">Tiene fredda la parte alta</small></span>
+    </div>
+    <div class="callout" data-part="heatbreak" data-from="0.1" data-to="0.3">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b>Heatbreak</b><small data-i18n="t.c.heatbreak.sub">Separa il caldo dal freddo</small></span>
+    </div>
+    <div class="callout" data-part="heater" data-from="0.12" data-to="0.3">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="t.c.heater">Blocco riscaldante</b><small data-i18n="t.c.heater.sub">Cartuccia e termistore</small></span>
+    </div>
+    <div class="callout" data-part="nozzle" data-from="0.14" data-to="0.3">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="t.c.nozzle">Ugello</b><small data-i18n="t.c.nozzle.sub">Dove il filo diventa cordolo</small></span>
+    </div>
+
+    <div class="step s-left s-seg" data-from="0.33" data-to="0.66">
+      <p class="seg-kicker"><b>02</b> <span data-i18n="t2.kicker">Resina · MSLA / SLA</span></p>
+      <h3 class="h-xl" data-i18n="t2.title">Dettaglio finissimo.</h3>
+      <p class="lead" data-i18n="t2.lead">Strati da 0,05 mm, anche trasparente.</p>
+      <p class="body" data-i18n="t2.text">La luce indurisce la resina una fetta alla volta: il pezzo cresce a testa in giù, appeso al piatto.</p>
+      <ul class="chips chips-line"><li>Prusa SL1</li><li>Prusa SL1S</li><li>Formlabs Form 3+</li></ul>
+    </div>
+    <div class="callout" data-part="lid" data-from="0.37" data-to="0.52">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="t.c.lid">Coperchio</b><small data-i18n="t.c.lid.sub">Filtra la luce esterna</small></span>
+    </div>
+    <div class="callout" data-part="vat" data-from="0.39" data-to="0.52">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="t.c.vat">Vasca</b><small data-i18n="t.c.vat.sub">La resina liquida</small></span>
+    </div>
+    <div class="callout" data-part="screen" data-from="0.41" data-to="0.52">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="t.c.screen">Schermo LCD</b><small data-i18n="t.c.screen.sub">Mostra la fetta da indurire</small></span>
+    </div>
+    <div class="callout" data-part="uvlight" data-from="0.43" data-to="0.52">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="t.c.uvlight">Luce UV</b><small data-i18n="t.c.uvlight.sub">Indurisce uno strato alla volta</small></span>
+    </div>
+    <div class="callout" data-part="plate" data-from="0.45" data-to="0.62">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="t.c.plate">Piatto</b><small data-i18n="t.c.plate.sub">Il pezzo cresce qui, capovolto</small></span>
+    </div>
+
+    <div class="step s-left s-seg" data-from="0.66" data-to="1">
+      <p class="seg-kicker"><b>03</b> <span data-i18n="t3.kicker">Nylon 12 · HP Multi Jet Fusion</span></p>
+      <h3 class="h-xl" data-i18n="t3.title">Pezzi tecnici resistenti, senza supporti.</h3>
+      <p class="body" data-i18n="t3.text">I pezzi nascono immersi nella polvere, che li sorregge mentre prendono forma. Poi la polvere se ne va, e restano loro.</p>
+      <ul class="chips chips-line"><li>HP Multi Jet Fusion</li><li>Nylon 12</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5 · LAVORI (tre lavori veri ricreati in 3D + la loro foto) ============ -->
+<section id="lavori" class="pin works" data-pin data-stage="works" data-theme="dark" data-tone="light" style="--pin:7" aria-labelledby="lavori-title">
+  <div class="pin-sticky">
+    <canvas class="stage" aria-hidden="true"></canvas>
+    <div class="stage-fallback fb-works" aria-hidden="true">
+      <figure class="fb-photo" data-seg="0"><img src="assets/img/lavori/aura-sgabelli.webp" width="361" height="640" alt="" loading="lazy" decoding="async"><span class="tag" data-i18n="w.photo">La foto</span></figure>
+      <figure class="fb-photo" data-seg="1"><img src="assets/img/lavori/gammino-scultura.webp" width="514" height="640" alt="" loading="lazy" decoding="async"><span class="tag" data-i18n="w.photo">La foto</span></figure>
+      <figure class="fb-photo" data-seg="2"><img src="assets/img/lavori/zigzig-lamp.webp" width="640" height="640" alt="" loading="lazy" decoding="async"><span class="tag" data-i18n="w.photo">La foto</span></figure>
+    </div>
+
+    <h2 class="visually-hidden" id="lavori-title" data-i18n="w.title">Lavori</h2>
+    <ol class="work-index" aria-hidden="true">
+      <li style="--s:var(--s0)"><span>01</span> <b data-i18n="w1.short">Aura</b><i></i></li>
+      <li style="--s:var(--s1)"><span>02</span> <b data-i18n="w2.short">Cristallo</b><i></i></li>
+      <li style="--s:var(--s2)"><span>03</span> <b data-i18n="w3.short">Zigzig</b><i></i></li>
+    </ol>
+    <p class="recon-tag" aria-hidden="true"><i></i><span data-i18n="w.recon">Ricostruzione 3D</span></p>
+
+    <article class="step work-step" data-from="0" data-to="0.34">
+      <div class="work-text">
+        <p class="eyebrow" data-i18n="w1.eyebrow">Fuorisalone 2026 · TreeVilla Park, Isola</p>
+        <h3 class="h-lg" data-i18n="w1.title">Sgabelli per Aura × Bambu Lab.</h3>
+        <p class="body" data-i18n="w1.text">Per Aura, l’installazione di Bambu Lab alla Milano Design Week, abbiamo progettato e stampato in 3D gli sgabelli: gambe a reticolo organico, seduta in legno.</p>
+        <dl class="credits">
+          <div><dt data-i18n="cr.design">Design</dt><dd>Pietro Bonu, Giuseppe Donvito</dd></div>
+          <div><dt data-i18n="cr.printed">Stampa</dt><dd data-i18n="w1.printed">Su macchine Bambu Lab</dd></div>
+          <div><dt data-i18n="cr.when">Quando</dt><dd data-i18n="w1.when">20–26 aprile 2026 · via Volturno / via Confalonieri</dd></div>
+        </dl>
+      </div>
+      <figure class="work-photo photo-aura">
+        <img src="assets/img/lavori/aura-sgabelli.webp" width="361" height="640" loading="lazy" decoding="async" alt="Sgabelli con gambe a reticolo argento e seduta in legno, all’aperto al TreeVilla Park" data-i18n-attr="alt:w1.alt">
+        <figcaption class="tag" data-i18n="w.photo">La foto</figcaption>
+      </figure>
+    </article>
+
+    <article class="step work-step" data-from="0.34" data-to="0.67">
+      <div class="work-text">
+        <p class="eyebrow" data-i18n="w2.eyebrow">Arte · Resina trasparente</p>
+        <h3 class="h-lg" data-i18n="w2.title">Una scultura di cristallo.</h3>
+        <p class="body" data-i18n="w2.text">Il progetto di Simone Gammino, tradotto in modello 3D e stampato in resina trasparente: ali sottili come lame, petalo su petalo.</p>
+        <dl class="credits">
+          <div><dt data-i18n="cr.concept">Progetto</dt><dd>Simone Gammino (<a href="https://www.instagram.com/simone__gammino/" target="_blank" rel="noopener">@simone__gammino</a>)</dd></div>
+          <div><dt data-i18n="cr.model">Modello 3D</dt><dd><a href="https://www.instagram.com/nagy_3d/" target="_blank" rel="noopener">@nagy_3d</a><span data-i18n="w2.team">, del nostro team</span></dd></div>
+          <div><dt data-i18n="cr.printed">Stampa</dt><dd data-i18n="w2.printed">Prusa SL1S · resina trasparente</dd></div>
+        </dl>
+      </div>
+      <figure class="work-photo photo-gammino">
+        <img src="assets/img/lavori/gammino-scultura.webp" width="514" height="640" loading="lazy" decoding="async" alt="Scultura in resina trasparente a forma di insetto con ali, su un piedistallo" data-i18n-attr="alt:w2.alt">
+        <figcaption class="tag" data-i18n="w.photo">La foto</figcaption>
+      </figure>
+    </article>
+
+    <article class="step work-step" data-from="0.67" data-to="1">
+      <div class="work-text">
+        <p class="eyebrow" data-i18n="w3.eyebrow">Design · Luce</p>
+        <h3 class="h-lg" data-i18n="w3.title">Zigzig lamp.</h3>
+        <p class="body" data-i18n="w3.text">Una lampada a sospensione a costole verticali. Una fessura a zig-zag lascia filtrare la luce, calda come uno strato appena stampato.</p>
+        <dl class="credits">
+          <div><dt data-i18n="cr.inspired">Ispirazione</dt><dd><span data-i18n="w3.vase">il vaso di</span> <a href="https://www.instagram.com/ysoftbe3d/" target="_blank" rel="noopener">@ysoftbe3d</a></dd></div>
+          <div><dt data-i18n="cr.printed">Stampa</dt><dd>PLA · Prusa MK3S+</dd></div>
+          <div><dt data-i18n="cr.layer">Strato</dt><dd data-i18n="w3.layer">0,2 mm</dd></div>
+        </dl>
+      </div>
+      <figure class="work-photo photo-zigzig">
+        <img src="assets/img/lavori/zigzig-lamp.webp" width="640" height="640" loading="lazy" decoding="async" alt="Lampada a sospensione nera a costole con una fessura a zig-zag illuminata" data-i18n-attr="alt:w3.alt">
+        <figcaption class="tag" data-i18n="w.photo">La foto</figcaption>
+      </figure>
+    </article>
+  </div>
+</section>
+
+<!-- ============ 6 · GALLERIA ============ -->
+<section id="galleria" class="block light" data-tone="light" aria-labelledby="galleria-title">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow" data-i18n="g.eyebrow">Galleria</p>
+      <h2 class="h-xl" id="galleria-title" data-i18n="g.title">Altri lavori.</h2>
+      <p class="lead" data-i18n="g.lead">Personaggi, sculture, pezzi tecnici, miniature. Ogni progetto con i suoi dati di stampa.</p>
+    </header>
+
+    <div class="gallery" role="list">
+      <div class="g-item g-wide reveal" role="listitem">
+        <article class="g-card tilt">
+          <figure class="g-media"><img src="assets/img/lavori/xerra-nylon.webp" width="640" height="429" loading="lazy" decoding="async" alt="Pezzo di design in nylon grigio scuro su fondo bianco" data-i18n-attr="alt:g7.alt"><span class="shine" aria-hidden="true"></span></figure>
+          <div class="g-body">
+            <h3 class="g-title" data-i18n="g7.title">Pezzo di design in nylon</h3>
+            <p class="g-credit"><span data-i18n="cr.for">Per</span> Victoria Xerra (<a href="https://www.instagram.com/vixonthemix/" target="_blank" rel="noopener">@vixonthemix</a>)</p>
+            <ul class="chips"><li>Nylon 12</li><li>HP Multi Jet Fusion</li></ul>
+          </div>
+        </article>
+      </div>
+      <div class="g-item reveal" role="listitem" style="--d:1">
+        <article class="g-card tilt">
+          <figure class="g-media"><img src="assets/img/lavori/kitsch-flylaly.webp" width="640" height="427" loading="lazy" decoding="async" alt="Fly-la-ly, personaggio stampato in 3D con sfumature verdi e blu" data-i18n-attr="alt:g3.alt"><span class="shine" aria-hidden="true"></span></figure>
+          <div class="g-body">
+            <h3 class="g-title">Fly-la-ly</h3>
+            <p class="g-credit"><a href="https://kitschandmonsters.com" target="_blank" rel="noopener">Kitsch&amp;Monsters</a> · <span data-i18n="cr.chars">personaggi di</span> <a href="https://www.instagram.com/espressiva_mente/" target="_blank" rel="noopener">@espressiva_mente</a>, <span data-i18n="cr.modelledBy">modellati da</span> <a href="https://www.instagram.com/nagy_3d/" target="_blank" rel="noopener">@nagy_3d</a></p>
+            <ul class="chips"><li>Prusa MK3S+</li><li data-i18n="chip.01">0,1 mm</li><li>24 h</li></ul>
+          </div>
+        </article>
+      </div>
+      <div class="g-item reveal" role="listitem" style="--d:2">
+        <article class="g-card tilt">
+          <figure class="g-media"><img src="assets/img/lavori/kitsch-zenlizard.webp" width="640" height="640" loading="lazy" decoding="async" alt="Zen-Lizard, personaggio rosso stampato in 3D" data-i18n-attr="alt:g5.alt"><span class="shine" aria-hidden="true"></span></figure>
+          <div class="g-body">
+            <h3 class="g-title">Zen-Lizard</h3>
+            <p class="g-credit"><a href="https://kitschandmonsters.com" target="_blank" rel="noopener">Kitsch&amp;Monsters</a> · <a href="https://www.instagram.com/espressiva_mente/" target="_blank" rel="noopener">@espressiva_mente</a> × <a href="https://www.instagram.com/nagy_3d/" target="_blank" rel="noopener">@nagy_3d</a></p>
+            <ul class="chips"><li data-i18n="chip.petgRed">PETG rosso “hellfire” Extrudr</li><li data-i18n="chip.01">0,1 mm</li><li>24 h</li></ul>
+          </div>
+        </article>
+      </div>
+      <div class="g-item reveal" role="listitem" style="--d:3">
+        <article class="g-card tilt">
+          <figure class="g-media"><img src="assets/img/lavori/gammino-dettaglio.webp" width="640" height="640" loading="lazy" decoding="async" alt="Dettaglio delle ali in resina trasparente, sfondo nero" data-i18n-attr="alt:g1.alt"><span class="shine" aria-hidden="true"></span></figure>
+          <div class="g-body">
+            <h3 class="g-title" data-i18n="g1.title">Ali di cristallo, da vicino</h3>
+            <p class="g-credit" data-i18n="g1.credit">Simone Gammino · ottobre 2022</p>
+            <ul class="chips"><li data-i18n="chip.clearResin">Resina trasparente</li><li>Prusa SL1S</li></ul>
+          </div>
+        </article>
+      </div>
+      <div class="g-item reveal" role="listitem">
+        <article class="g-card tilt">
+          <figure class="g-media"><img src="assets/img/lavori/tillien.webp" width="640" height="527" loading="lazy" decoding="async" alt="Tillien, testa di alieno stampata in PLA alluminio" data-i18n-attr="alt:g6.alt"><span class="shine" aria-hidden="true"></span></figure>
+          <div class="g-body">
+            <h3 class="g-title">Tillien</h3>
+            <p class="g-credit"><span data-i18n="cr.modelBy">Modello di</span> <a href="https://www.instagram.com/nagy_3d/" target="_blank" rel="noopener">@nagy_3d</a></p>
+            <ul class="chips"><li>Prusa MK3S</li><li data-i18n="chip.plaAlu">PLA alluminio</li><li data-i18n="chip.01">0,1 mm</li><li>48 h</li></ul>
+          </div>
+        </article>
+      </div>
+      <div class="g-item reveal" role="listitem" style="--d:1">
+        <article class="g-card tilt">
+          <figure class="g-media"><img src="assets/img/lavori/ganesha.webp" width="610" height="640" loading="lazy" decoding="async" alt="Modello 3D di Ganesha nel software di stampa" data-i18n-attr="alt:g2.alt"><span class="shine" aria-hidden="true"></span></figure>
+          <div class="g-body">
+            <h3 class="g-title">Ganesha</h3>
+            <p class="g-credit"><span data-i18n="cr.modelBy">Modello di</span> <a href="https://www.instagram.com/nagy_3d/" target="_blank" rel="noopener">@nagy_3d</a></p>
+            <ul class="chips"><li>Prusa SL1</li><li>Prusament Tough Grey</li><li data-i18n="chip.005">0,05 mm</li><li>7 h 35 min</li></ul>
+          </div>
+        </article>
+      </div>
+      <div class="g-item reveal" role="listitem" style="--d:2">
+        <article class="g-card tilt">
+          <figure class="g-media"><img src="assets/img/lavori/kitsch-tobu.webp" width="640" height="427" loading="lazy" decoding="async" alt="Tobu, creatura con ali stampata in 3D" data-i18n-attr="alt:g4.alt"><span class="shine" aria-hidden="true"></span></figure>
+          <div class="g-body">
+            <h3 class="g-title">Tobu</h3>
+            <p class="g-credit"><a href="https://kitschandmonsters.com" target="_blank" rel="noopener">Kitsch&amp;Monsters</a> · <a href="https://www.instagram.com/espressiva_mente/" target="_blank" rel="noopener">@espressiva_mente</a> × <a href="https://www.instagram.com/nagy_3d/" target="_blank" rel="noopener">@nagy_3d</a></p>
+            <ul class="chips"><li data-i18n="chip.petgBlue">PETG blu Extrudr</li><li data-i18n="chip.01">0,1 mm</li><li>24 h</li></ul>
+          </div>
+        </article>
+      </div>
+      <div class="g-item reveal" role="listitem" style="--d:3">
+        <article class="g-card tilt">
+          <figure class="g-media"><img src="assets/img/lavori/miniature-form3.webp" width="640" height="571" loading="lazy" decoding="async" alt="Piatto di stampa pieno di miniature in resina grigia" data-i18n-attr="alt:g8.alt"><span class="shine" aria-hidden="true"></span></figure>
+          <div class="g-body">
+            <h3 class="g-title" data-i18n="g8.title">Miniature in scala</h3>
+            <p class="g-credit" data-i18n="g8.credit">Modelli di Adriano Amenta</p>
+            <ul class="chips"><li>Formlabs Form 3+</li><li data-i18n="chip.greyResin">Resina grigia</li></ul>
+          </div>
+        </article>
+      </div>
+      <div class="g-item reveal" role="listitem">
+        <article class="g-card tilt">
+          <figure class="g-media"><img src="assets/img/lavori/gammino-studio.webp" width="640" height="640" loading="lazy" decoding="async" alt="Scultura digitale a foglie e piume, studio per la stampa 3D" data-i18n-attr="alt:g9.alt"><span class="shine" aria-hidden="true"></span></figure>
+          <div class="g-body">
+            <h3 class="g-title">Study for 3D print</h3>
+            <p class="g-credit"><span data-i18n="cr.conceptBy">Progetto di</span> Simone Gammino · <span data-i18n="cr.modelLower">modello di</span> <a href="https://www.instagram.com/nagy_3d/" target="_blank" rel="noopener">@nagy_3d</a></p>
+            <ul class="chips"><li data-i18n="chip.modelling">Modellazione 3D</li></ul>
+          </div>
+        </article>
+      </div>
+      <div class="g-item g-wide reveal" role="listitem" style="--d:1">
+        <article class="g-card tilt">
+          <figure class="g-media"><img src="assets/img/lavori/lab-diorama.webp" width="960" height="540" loading="lazy" decoding="async" alt="Il laboratorio Tillverka illustrato come diorama 3D low-poly" data-i18n-attr="alt:g10.alt"><span class="shine" aria-hidden="true"></span></figure>
+          <div class="g-body">
+            <h3 class="g-title" data-i18n="g10.title">Il laboratorio, in diorama</h3>
+            <p class="g-credit" data-i18n="g10.credit">Il nostro lab, ricostruito in 3D low-poly</p>
+            <ul class="chips"><li data-i18n="chip.illustration">Illustrazione 3D</li></ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ 7 · PER CHI LAVORIAMO (aziende, architetti, designer e artisti) ============ -->
+<section id="perchi" class="pin dark" data-pin data-stage="audience" data-theme="dark" data-tone="dark" data-segs="0.33,0.66" style="--pin:7" aria-labelledby="perchi-title">
+  <div class="pin-sticky">
+    <canvas class="stage" aria-hidden="true"></canvas>
+    <div class="stage-fallback fb-draw fb-segs" aria-hidden="true"><!--FB:audience--></div>
+
+    <div class="seg-index">
+      <h2 class="seg-title" id="perchi-title" data-i18n="who.title.short">Per chi lavoriamo</h2>
+      <ol aria-hidden="true">
+        <li style="--s:var(--s0)"><span>01</span> <b data-i18n="who.1">Aziende</b><i></i></li>
+        <li style="--s:var(--s1)"><span>02</span> <b data-i18n="who.3">Architetti</b><i></i></li>
+        <li style="--s:var(--s2)"><span>03</span> <b data-i18n="who.2.short">Designer</b><i></i></li>
+      </ol>
+    </div>
+
+    <div class="step s-left s-seg" data-from="0" data-to="0.33">
+      <p class="seg-kicker"><b>01</b> <span data-i18n="who.1">Aziende</span></p>
+      <h3 class="h-xl" data-i18n="pc1.title">Prototipi che funzionano.</h3>
+      <p class="lead" data-i18n="who.1.text">Prototipi, piccole serie, pezzi tecnici.</p>
+      <p class="body" data-i18n="pc1.text">Parti che si montano, si provano e si migliorano. Prima di andare in produzione, le tieni in mano.</p>
+    </div>
+    <div class="callout" data-part="housing" data-from="0.08" data-to="0.26">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="pc.c.housing">Guscio</b><small data-i18n="pc.c.housing.sub">Due metà, grafite e argento</small></span>
+    </div>
+    <div class="callout" data-part="gears" data-from="0.1" data-to="0.26">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="pc.c.gears">Ingranaggi</b><small data-i18n="pc.c.gears.sub">Rotismo epicicloidale</small></span>
+    </div>
+    <div class="callout" data-part="shaft" data-from="0.12" data-to="0.26">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="pc.c.shaft">Albero</b><small data-i18n="pc.c.shaft.sub">Porta fuori il movimento</small></span>
+    </div>
+    <div class="callout" data-part="bearings" data-from="0.14" data-to="0.26">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="pc.c.bearings">Cuscinetti</b><small data-i18n="pc.c.bearings.sub">Rotazione senza gioco</small></span>
+    </div>
+    <div class="callout" data-part="screws" data-from="0.16" data-to="0.26">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="pc.c.screws">Viti</b><small data-i18n="pc.c.screws.sub">Si apre, si ispeziona, si richiude</small></span>
+    </div>
+
+    <div class="step s-left s-seg" data-from="0.33" data-to="0.66">
+      <p class="seg-kicker"><b>02</b> <span data-i18n="who.3">Architetti</span></p>
+      <h3 class="h-xl" data-i18n="pc2.title">Plastici che si leggono.</h3>
+      <p class="lead" data-i18n="who.3.text">Plastici e modelli.</p>
+      <p class="body" data-i18n="pc2.text">Il terreno a curve di livello, l’edificio piano per piano, fino agli alberi: il progetto si capisce al primo sguardo.</p>
+    </div>
+    <div class="callout" data-part="floors" data-from="0.41" data-to="0.6">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="pc.c.floors">Solai</b><small data-i18n="pc.c.floors.sub">Piano per piano</small></span>
+    </div>
+    <div class="callout" data-part="facade" data-from="0.43" data-to="0.6">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="pc.c.facade">Facciata</b><small data-i18n="pc.c.facade.sub">Fasce vetrate</small></span>
+    </div>
+    <div class="callout" data-part="site" data-from="0.45" data-to="0.6">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="pc.c.site">Terreno</b><small data-i18n="pc.c.site.sub">Curve di livello, strato su strato</small></span>
+    </div>
+
+    <div class="step s-left s-seg" data-from="0.66" data-to="1">
+      <p class="seg-kicker"><b>03</b> <span data-i18n="who.2">Designer e artisti</span></p>
+      <h3 class="h-xl" data-i18n="pc3.title">Forme che prima non c’erano.</h3>
+      <p class="lead" data-i18n="who.2.text">Sculture, arredi, lampade, mostre.</p>
+      <p class="body" data-i18n="pc3.text">Superfici generative, torsioni, costolature: le modelliamo con te e le stampiamo nel materiale giusto.</p>
+      <p><a class="link-arrow" href="#preventivo" data-i18n="cta.quote.arrow">Chiedi un preventivo</a></p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ 8 · SERVIZI (bianco, illustrazioni tecniche che si disegnano) ============ -->
+<section id="servizi" class="block light white" data-tone="light" aria-labelledby="servizi-title">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow" data-i18n="s.eyebrow">Servizi</p>
+      <h2 class="h-xl" id="servizi-title" data-i18n="s.title">Tre servizi. Un solo laboratorio.</h2>
+      <p class="lead" data-i18n="s.lead">Arrivi con un oggetto, un’idea o un file: ti accompagniamo fino al pezzo finito.</p>
+    </header>
+
+    <div class="services">
+      <article class="svc reveal">
+        <div class="svc-ill ill ill-scan" aria-hidden="true"><!--ILL:scan--></div>
+        <p class="svc-kicker"><b>01</b> <span data-i18n="p1.name">Scansione 3D</span></p>
+        <h3 class="h-md" data-i18n="p1.claim">Dal reale al digitale.</h3>
+        <p class="body" data-i18n="s1.text">Rileviamo la forma di un oggetto esistente e ne ricaviamo un modello digitale: per riprodurlo, modificarlo o conservarlo.</p>
+      </article>
+
+      <article class="svc reveal" style="--d:1">
+        <div class="svc-ill ill ill-model" aria-hidden="true"><!--ILL:model--></div>
+        <p class="svc-kicker"><b>02</b> <span data-i18n="p2.name">Modellazione 3D</span></p>
+        <h3 class="h-md" data-i18n="p2.claim">Dall’idea al file.</h3>
+        <p class="body" data-i18n="s2.text">Disegniamo il modello partendo da schizzi, foto o misure, e lo prepariamo per la produzione.</p>
+      </article>
+
+      <article class="svc reveal" style="--d:2">
+        <div class="svc-ill ill ill-print" aria-hidden="true"><!--ILL:print--></div>
+        <p class="svc-kicker"><b>03</b> <span data-i18n="p3.name">Stampa 3D</span></p>
+        <h3 class="h-md" data-i18n="p3.claim">Dal file all’oggetto.</h3>
+        <p class="body" data-i18n="s3.text">Prototipi, pezzi unici e piccole serie, in filamento, resina o nylon. Con la finitura che il progetto chiede.</p>
+      </article>
+    </div>
+
+    <div class="lh reveal">
+      <div class="lh-head">
+        <p class="eyebrow" data-i18n="lh.eyebrow">Altezza di strato</p>
+        <h3 class="h-lg" data-i18n="lh.title">Quanto è sottile uno strato?</h3>
+        <p class="body" data-i18n="lh.lead">La stessa curva, con tre altezze di strato prese dai nostri lavori. Più lo strato è sottile, più la superficie è liscia.</p>
+      </div>
+      <div class="lh-grid ill" aria-hidden="true">
+        <figure class="lh-item"><!--ILL:lh005--><figcaption><b data-i18n="chip.005">0,05 mm</b><span data-i18n="lh.005">Ganesha · resina, Prusa SL1</span></figcaption></figure>
+        <figure class="lh-item"><!--ILL:lh01--><figcaption><b data-i18n="chip.01">0,1 mm</b><span data-i18n="lh.01">Kitsch&amp;Monsters, Tillien · filamento</span></figcaption></figure>
+        <figure class="lh-item"><!--ILL:lh02--><figcaption><b data-i18n="w3.layer">0,2 mm</b><span data-i18n="lh.02">Zigzig lamp · PLA, Prusa MK3S+</span></figcaption></figure>
+      </div>
+    </div>
+
+    <div class="how reveal">
+      <h3 class="h-lg" data-i18n="how.title">Come funziona.</h3>
+      <ol class="steps4 ill">
+        <li><div class="how-ill" aria-hidden="true"><!--ILL:how1--></div><span class="n">01</span><b data-i18n="how.1">Idea o file</b><p data-i18n="how.1.text">Mandaci un file 3D, uno schizzo o una foto. Oppure un oggetto da scansionare.</p></li>
+        <li><div class="how-ill" aria-hidden="true"><!--ILL:how2--></div><span class="n">02</span><b data-i18n="how.2">Modello</b><p data-i18n="how.2.text">Lo disegniamo o lo sistemiamo, pronto per la stampa.</p></li>
+        <li><div class="how-ill" aria-hidden="true"><!--ILL:how3--></div><span class="n">03</span><b data-i18n="how.3">Stampa</b><p data-i18n="how.3.text">Scegliamo tecnologia e materiale, poi stampiamo.</p></li>
+        <li><div class="how-ill" aria-hidden="true"><!--ILL:how4--></div><span class="n">04</span><b data-i18n="how.4">Finitura e consegna</b><p data-i18n="how.4.text">Rifiniamo ogni pezzo e te lo consegniamo pronto.</p></li>
+      </ol>
+    </div>
+
+    <div class="tech reveal">
+      <div class="tech-head">
+        <h3 class="h-lg" data-i18n="tech.title">Tecnologie e materiali.</h3>
+        <p class="body muted" data-i18n="tech.lead">Quelli che trovi nei nostri lavori.</p>
+      </div>
+      <div class="tech-groups">
+        <div><p class="tech-label" data-i18n="tech.fdm">Filamento · FDM</p><ul class="chips chips-line"><li>Bambu Lab</li><li>Prusa MK3S+</li></ul></div>
+        <div><p class="tech-label" data-i18n="tech.resin">Resina · MSLA / SLA</p><ul class="chips chips-line"><li>Prusa SL1</li><li>Prusa SL1S</li><li>Formlabs Form 3+</li></ul></div>
+        <div><p class="tech-label" data-i18n="tech.powder">Polvere · Nylon 12</p><ul class="chips chips-line"><li>HP Multi Jet Fusion</li></ul></div>
+        <div><p class="tech-label" data-i18n="tech.materials">Materiali</p><ul class="chips chips-line"><li>PLA</li><li>PETG</li><li data-i18n="chip.plaAlu">PLA alluminio</li><li data-i18n="chip.clearResins">Resine trasparenti</li><li data-i18n="chip.greyResins">Resine grigie</li><li>Nylon 12</li></ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ 9 · STORIA (nero; accanto al 2020 la visiera in 3D) ============ -->
+<section id="storia" class="block dark" data-tone="dark" aria-labelledby="storia-title">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow" data-i18n="h.eyebrow">Storia</p>
+      <h2 class="h-xl" id="storia-title" data-i18n="h.title">Dal 2019, a Milano.</h2>
+    </header>
+    <ol class="timeline">
+      <li class="t-item reveal">
+        <span class="t-dot" aria-hidden="true"></span>
+        <p class="t-year">2019</p>
+        <div class="t-text">
+          <h3 class="h-sm" data-i18n="h.2019">Nasce Tillverka.</h3>
+          <p class="body" data-i18n="h.2019.text">Un laboratorio di progettazione e stampa 3D a Milano. Il nome, in svedese, vuol dire fabbricare.</p>
+        </div>
+      </li>
+      <li class="t-item t-feature reveal">
+        <span class="t-dot" aria-hidden="true"></span>
+        <p class="t-year">2020</p>
+        <div class="t-text">
+          <h3 class="h-sm" data-i18n="h.2020">Migliaia di visiere.</h3>
+          <p class="body" data-i18n="h.2020.text">Durante l’emergenza Covid stampiamo migliaia di visiere protettive e le doniamo a ospedali di Milano, strutture private e realtà non profit, in rete con altri maker milanesi.</p>
+          <p class="t-source" data-i18n="h.2020.src">Fonte: Sky TG24, 2 luglio 2020</p>
+        </div>
+        <div class="stage-card" data-pin="view" data-stage="visor" data-theme="dark">
+          <canvas class="stage" aria-hidden="true"></canvas>
+          <div class="stage-fallback fb-draw fb-visor" aria-hidden="true"><!--FB:visor--></div>
+          <p class="card-cap"><span class="eyebrow" data-i18n="h.visor.eyebrow">La visiera del 2020</span><span class="card-note" data-i18n="h.visor.note">Migliaia di visiere stampate e donate agli ospedali di Milano.</span></p>
+          <p class="card-tag" aria-hidden="true"><i></i><span data-i18n="w.recon">Ricostruzione 3D</span></p>
+          <div class="callout" data-part="band" data-from="0.3" data-to="0.7">
+            <span class="c-dot"></span><span class="c-line"></span>
+            <span class="c-label"><b data-i18n="v.c.band">Archetto</b><small data-i18n="v.c.band.sub">Stampato in 3D</small></span>
+          </div>
+          <div class="callout" data-part="clips" data-from="0.33" data-to="0.7">
+            <span class="c-dot"></span><span class="c-line"></span>
+            <span class="c-label"><b data-i18n="v.c.clips">Agganci</b><small data-i18n="v.c.clips.sub">Tre incastri a scatto</small></span>
+          </div>
+          <div class="callout" data-part="shield" data-from="0.36" data-to="0.7">
+            <span class="c-dot"></span><span class="c-line"></span>
+            <span class="c-label"><b data-i18n="v.c.shield">Schermo</b><small data-i18n="v.c.shield.sub">Foglio trasparente</small></span>
+          </div>
+        </div>
+      </li>
+      <li class="t-item reveal">
+        <span class="t-dot" aria-hidden="true"></span>
+        <p class="t-year">2022</p>
+        <div class="t-text">
+          <h3 class="h-sm" data-i18n="h.2022">Arte e design.</h3>
+          <p class="body" data-i18n="h.2022.text">Collaborazioni con artisti e designer, come le sculture in resina trasparente di Simone Gammino.</p>
+        </div>
+      </li>
+      <li class="t-item reveal">
+        <span class="t-dot is-now" aria-hidden="true"></span>
+        <p class="t-year">2026</p>
+        <div class="t-text">
+          <h3 class="h-sm" data-i18n="h.2026">Fuorisalone.</h3>
+          <p class="body" data-i18n="h.2026.text">Alla Milano Design Week, gli sgabelli stampati in 3D per Aura, l’installazione di Bambu Lab al TreeVilla Park.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 10 · PREVENTIVO ============ -->
+<section id="preventivo" class="block light" data-tone="light" aria-labelledby="preventivo-title">
+  <div class="wrap quote">
+    <header class="quote-head reveal">
+      <p class="eyebrow" data-i18n="q.eyebrow">Preventivo</p>
+      <h2 class="h-xl" id="preventivo-title" data-i18n="q.title">Dai forma alla tua idea.</h2>
+      <p class="lead" data-i18n="q.lead">Raccontaci il progetto. Il modulo prepara il messaggio: lo invii tu, su WhatsApp o via email.</p>
+      <ul class="direct">
+        <li><span data-i18n="q.direct.mail">Scrivici</span><a href="mailto:3d@tillverka.xyz">3d@tillverka.xyz</a></li>
+        <li><span data-i18n="q.direct.phone">Chiamaci o scrivi su WhatsApp</span><a href="tel:+393926323799">+39 392 632 3799</a></li>
+      </ul>
+    </header>
+
+    <form class="form reveal" id="quote-form" novalidate style="--d:1">
+      <div class="f-row two">
+        <div class="field">
+          <label for="f-name" data-i18n="f.name">Nome e cognome</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="e-name">
+          <p class="err" id="e-name" data-i18n="err.name">Scrivi il tuo nome.</p>
+        </div>
+        <div class="field">
+          <label for="f-company"><span data-i18n="f.company">Azienda</span> <small data-i18n="f.optional">facoltativo</small></label>
+          <input id="f-company" name="company" type="text" autocomplete="organization">
+        </div>
+      </div>
+      <div class="f-row two">
+        <div class="field">
+          <label for="f-email" data-i18n="f.email">Email</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="e-email">
+          <p class="err" id="e-email" data-i18n="err.email">Serve un’email valida.</p>
+        </div>
+        <div class="field">
+          <label for="f-phone"><span data-i18n="f.phone">Telefono</span> <small data-i18n="f.optional">facoltativo</small></label>
+          <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel">
+        </div>
+      </div>
+
+      <fieldset class="field" aria-describedby="e-who">
+        <legend data-i18n="f.who">Sei…</legend>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="who" value="azienda" required><span data-i18n="f.who.1">Azienda</span></label>
+          <label class="choice"><input type="radio" name="who" value="designer"><span data-i18n="f.who.2">Designer o artista</span></label>
+          <label class="choice"><input type="radio" name="who" value="architetto"><span data-i18n="f.who.3">Architetto</span></label>
+          <label class="choice"><input type="radio" name="who" value="altro"><span data-i18n="f.who.4">Altro</span></label>
+        </div>
+        <p class="err" id="e-who" data-i18n="err.who">Dicci chi sei.</p>
+      </fieldset>
+
+      <fieldset class="field" aria-describedby="e-svc">
+        <legend data-i18n="f.svc">Cosa ti serve?</legend>
+        <div class="choices">
+          <label class="choice"><input type="checkbox" name="svc" value="scan"><span data-i18n="f.svc.1">Scansione</span></label>
+          <label class="choice"><input type="checkbox" name="svc" value="model"><span data-i18n="f.svc.2">Modellazione</span></label>
+          <label class="choice"><input type="checkbox" name="svc" value="print"><span data-i18n="f.svc.3">Stampa</span></label>
+        </div>
+        <p class="err" id="e-svc" data-i18n="err.svc">Scegli almeno un servizio.</p>
+      </fieldset>
+
+      <div class="f-row three">
+        <div class="field">
+          <label for="f-material" data-i18n="f.material">Materiale</label>
+          <div class="select">
+            <select id="f-material" name="material">
+              <option value="nd" data-i18n="f.mat.1">Non so</option>
+              <option value="PLA">PLA</option>
+              <option value="PETG">PETG</option>
+              <option value="resina" data-i18n="f.mat.2">Resina</option>
+              <option value="nylon">Nylon</option>
+              <option value="altro" data-i18n="f.mat.3">Altro</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-qty" data-i18n="f.qty">Quantità</label>
+          <input id="f-qty" name="qty" type="number" min="1" step="1" value="1" inputmode="numeric" required aria-describedby="e-qty">
+          <p class="err" id="e-qty" data-i18n="err.qty">Indica una quantità.</p>
+        </div>
+        <div class="field">
+          <label for="f-date"><span data-i18n="f.date">Scadenza</span> <small data-i18n="f.optional">facoltativo</small></label>
+          <input id="f-date" name="date" type="date">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="f-desc" data-i18n="f.desc">Descrivi il progetto</label>
+        <textarea id="f-desc" name="desc" rows="4" required aria-describedby="e-desc" placeholder="Dimensioni, uso, finitura: tutto quello che sai." data-i18n-attr="placeholder:f.desc.ph"></textarea>
+        <p class="err" id="e-desc" data-i18n="err.desc">Descrivi il progetto in poche righe.</p>
+      </div>
+
+      <div class="field">
+        <label for="f-link"><span data-i18n="f.link">Link al file</span> <small data-i18n="f.optional">facoltativo</small></label>
+        <input id="f-link" name="link" type="url" inputmode="url" placeholder="WeTransfer, Google Drive…" data-i18n-attr="placeholder:f.link.ph">
+      </div>
+
+      <div class="f-actions">
+        <button class="btn btn-gold btn-lg" type="submit" value="wa" data-i18n="f.send.wa">Invia su WhatsApp</button>
+        <button class="btn btn-ink btn-lg" type="submit" value="mail" data-i18n="f.send.mail">Invia via email</button>
+      </div>
+      <p class="privacy"><i aria-hidden="true"></i><span data-i18n="f.privacy">Il modulo non salva dati: prepara il messaggio e lo apre su WhatsApp o nella tua email. Sei tu a inviarlo.</span></p>
+      <p class="f-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+
+<!-- ============ 11 · IL LABORATORIO (diorama che esplode per strati) ============ -->
+<section id="laboratorio" class="pin dark" data-pin data-stage="lab" data-theme="dark" data-tone="dark" style="--pin:4" aria-labelledby="lab-title">
+  <div class="pin-sticky">
+    <canvas class="stage" aria-hidden="true"></canvas>
+    <div class="stage-fallback fb-lab" aria-hidden="true">
+      <figure><img src="assets/img/lavori/lab-diorama.webp" width="960" height="540" alt="" loading="lazy" decoding="async"></figure>
+    </div>
+
+    <div class="step s-left s-top" data-from="0" data-to="0.3">
+      <p class="eyebrow" data-i18n="lab.eyebrow">Dove nasce tutto</p>
+      <h2 class="h-xl" id="lab-title" data-i18n="lab.title">Il laboratorio.</h2>
+      <p class="lead" data-i18n="lab.lead">Via Ampère 122, Milano — Città Studi.</p>
+    </div>
+
+    <div class="step s-left" data-from="0.3" data-to="0.6">
+      <p class="eyebrow" data-i18n="m.exploded">Vista esplosa</p>
+      <h2 class="h-lg" data-i18n="lab.exploded">Uno spazio, tutto il processo.</h2>
+      <p class="lead" data-i18n="lab.exploded.lead">Scansione, progetto, stampa e finitura, sotto lo stesso tetto.</p>
+    </div>
+    <div class="callout" data-part="printers" data-from="0.34" data-to="0.6">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="lab.c.printers">Stampanti</b><small data-i18n="lab.c.printers.sub">Filamento e resina</small></span>
+    </div>
+    <div class="callout" data-part="scanner" data-from="0.37" data-to="0.6">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="lab.c.scanner">Cabina di scansione</b><small data-i18n="p1.claim">Dal reale al digitale.</small></span>
+    </div>
+    <div class="callout" data-part="desks" data-from="0.4" data-to="0.6">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="lab.c.desks">Tavoli</b><small data-i18n="lab.c.desks.sub">Progetto e finitura</small></span>
+    </div>
+    <div class="callout" data-part="shelves" data-from="0.43" data-to="0.6">
+      <span class="c-dot"></span><span class="c-line"></span>
+      <span class="c-label"><b data-i18n="lab.c.shelves">Bobine</b><small data-i18n="lab.c.shelves.sub">I materiali, pronti</small></span>
+    </div>
+
+    <div class="step s-left" data-from="0.6" data-to="0.85">
+      <p class="eyebrow" data-i18n="lab.team.eyebrow">Il team</p>
+      <h2 class="h-lg" data-i18n="lab.team">Grafici, designer, modellatori e stampatori.</h2>
+      <p class="lead" data-i18n="lab.team.lead">Le macchine si accendono. Dietro ogni pezzo, le persone che lo pensano.</p>
+    </div>
+
+    <div class="step s-left s-lab-end" data-from="0.85" data-to="1">
+      <h2 class="h-xl" data-i18n="lab.end">Il tuo prossimo pezzo nasce qui.</h2>
+      <p class="lead" data-i18n="lab.end.lead">Via Andrea Maria Ampère 122, 20131 Milano.</p>
+      <div class="actions">
+        <a class="btn btn-gold" href="#preventivo" data-i18n="cta.quote">Chiedi un preventivo</a>
+        <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&amp;query=Via%20Andrea%20Maria%20Amp%C3%A8re%20122%2C%2020131%20Milano" target="_blank" rel="noopener" data-i18n="ft.maps">Apri in Maps</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER · CONTATTI ============ -->
+<footer id="contatti" class="footer dark" data-tone="dark">
+  <div class="wrap">
+    <div class="foot-top reveal">
+      <div class="foot-brand">
+        <svg class="foot-logo" viewBox="-93.5 -112 212 182" role="img" aria-label="Tillverka">
+          <use href="#logo" x="-93.5" y="-99.1" width="184.4" height="168.9"/>
+          <text x="46" y="-92" class="tlk">TLK</text>
+        </svg>
+        <p class="h-md foot-claim" data-i18n="ft.claim">Fabbricare, dal 2019.</p>
+        <a class="btn btn-gold" href="#preventivo" data-i18n="cta.quote">Chiedi un preventivo</a>
+      </div>
+      <div class="foot-cols">
+        <div>
+          <h2 class="foot-h" data-i18n="ft.contacts">Contatti</h2>
+          <ul>
+            <li><a href="mailto:3d@tillverka.xyz">3d@tillverka.xyz</a></li>
+            <li><a href="tel:+393926323799">+39 392 632 3799</a></li>
+            <li><a href="https://wa.me/393926323799" target="_blank" rel="noopener">WhatsApp</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="foot-h" data-i18n="ft.lab">Laboratorio</h2>
+          <address>Via Andrea Maria Ampère 122<br>20131 Milano <span data-i18n="ft.area">· Città Studi</span></address>
+          <p><a href="https://www.google.com/maps/search/?api=1&amp;query=Via%20Andrea%20Maria%20Amp%C3%A8re%20122%2C%2020131%20Milano" target="_blank" rel="noopener" data-i18n="ft.maps">Apri in Maps</a></p>
+        </div>
+        <div>
+          <h2 class="foot-h" data-i18n="ft.social">Social</h2>
+          <ul>
+            <li><a href="https://www.instagram.com/tillverka3d/" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://www.facebook.com/tillverka3d/" target="_blank" rel="noopener">Facebook</a></li>
+            <li><a href="https://www.linkedin.com/company/tillverka3d/" target="_blank" rel="noopener">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 Tillverka Srl · <span data-i18n="ft.vat">P.IVA</span> 10677210964</p>
+      <p data-i18n="ft.tag">Progettazione e stampa 3D a Milano</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
