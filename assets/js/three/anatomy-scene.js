@@ -459,7 +459,7 @@ export async function create(ctx) {
 
     /* ---- posa e luce radente ---- */
     const spin = lerp(-0.62, -0.18, smoothstep(seg(p, 0, 0.14)));
-    const yaw = spin + lerp(0, -0.34, E([0.3, 0.6])) + lerp(0, 0.1, back) + lerp(0, 0.22, close)
+    const yaw = spin + lerp(0, -0.34, E([0.3, 0.6])) + lerp(0, 0.1, back) - lerp(0, 0.1, close)
       + (idle ? Math.sin(t * 0.3) * 0.05 + px * 0.1 : 0);
     root.rotation.y = yaw;
     const la = -0.9 + p * 1.6 + (idle ? Math.sin(t * 0.21) * 0.08 : 0);
@@ -476,7 +476,7 @@ export async function create(ctx) {
     const kV = 1 / (tanHalf * availV), kH = 1 / (tanHalf * aspect * availH);
     const ex = Math.max(eSkin, grow);
     const el = lerp(lerp(0.4, 0.5, E([T.cutA, T.cutB])) + 0.04 * ex, 1.0, back) - lerp(0, 0.58, close);
-    framer.fitView(fitWhole, el, kV * 0.8, kH * 0.8, vA);
+    framer.fitView(fitWhole, el, kV * 0.86, kH * 0.86, vA);
     framer.fitView(fitAll, el, kV, kH, vB);
     framer.fitView(fitNoTop, el, kV * 0.98, kH * 0.98, vC);
     framer.blendView(vA, vB, ex * (1 - back), vF);

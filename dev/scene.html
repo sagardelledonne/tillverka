@@ -41,7 +41,8 @@
   /* errori visibili anche nelle foto di controllo (dev/shot.sh) */
   (function () {
     const box = () => { let b = document.getElementById('errs'); if (!b) { b = document.createElement('pre'); b.id = 'errs'; b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99;margin:0;padding:8px;background:#300;color:#f88;font:12px monospace;white-space:pre-wrap;max-height:40vh;overflow:auto'; document.documentElement.appendChild(b); } return b; };
-    const show = (m) => { box().textContent += m + '\n'; };
+    /* l'avviso KHR_parallel_shader_compile arriva solo dal WebGL software delle foto: non è un errore */
+    const show = (m) => { if (!/KHR_parallel_shader_compile/.test(m)) box().textContent += m + '\n'; };
     addEventListener('error', (e) => show('ERRORE: ' + (e.message || e) + (e.filename ? ' @ ' + e.filename.split('/').pop() + ':' + e.lineno : '')));
     addEventListener('unhandledrejection', (e) => show('PROMISE: ' + (e.reason && (e.reason.stack || e.reason.message) || e.reason)));
     const w = console.warn, er = console.error;
