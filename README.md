@@ -13,11 +13,18 @@ python dev/serve.py 8790          # server senza cache → http://localhost:8790
 - `?lang=en` apre la pagina in inglese (la scelta fatta con il selettore IT/EN resta memorizzata nel browser).
 - `?at=intro:0.35` salta subito a una sezione fissata e a un punto del suo avanzamento; `?at=galleria` per le
   sezioni normali. Serve per controlli e foto. Con `?at` (o `?debug`) gli errori JS compaiono in un riquadro rosso.
-- Una scena 3D da sola: `dev/scene.html?name=intro|printer|works&p=0.4`.
-- Foto di controllo: `bash dev/shot.sh "dev/scene.html?name=works&p=0.5&hud=0" dev/shots/x.png 1440,900`.
-  Attenzione: `--screenshot` di Chrome senza finestra **non cattura le pagine scrollate** (esce un fotogramma vuoto),
-  quindi per `index.html?at=…` serve uno script via DevTools Protocol (apri la pagina, aspetta, `Page.captureScreenshot`).
-  Con WebGL software (swiftshader) le tre scene insieme impiegano 10–15 s a comparire: aspetta prima dello scatto.
+- Una scena 3D da sola: `dev/scene.html?name=intro|printer|anatomy|tech|works|audience|visor|lab&p=0.4&hud=0`.
+- Fogli provini (Puppeteer; serve `cd dev && npm i puppeteer-core@23`, e se jsdelivr non è raggiungibile anche
+  `npm i --no-save three@0.170.0`: `dev/snap.mjs` lo serve al posto della CDN; trova da solo Chrome su Windows o
+  il Chromium di Linux):
+  - una scena a più valori di p: `bash dev/an.sh anatomy dev/shots/an.png 1440,900 4 0.05 0.2 0.5 0.8`
+  - tutta la pagina, ogni passo di ogni sezione: `python dev/full.py dev/shots/full 1440,900` (telefono `390,844`,
+    inglese: terzo argomento `en`, solo alcune sezioni: quarto argomento `intro,perchi`)
+  - una pagina qualsiasi: `python dev/sheet.py dev/shots/x.png 1440,900 2 "index.html@macchina:0.35|etichetta"`
+- Con WebGL software (swiftshader) le scene impiegano 10–15 s a comparire e le transizioni CSS rallentano: un testo
+  sfocato o una foto nera in un provino di solito è solo il browser di prova (rifai lo scatto con `PAR=1 WAIT=4000`).
+- Disegni tecnici SVG (servizi, altezze di strato, Come funziona, riserve senza WebGL): li genera `python dev/ill.py`
+  (`--preview` scrive anche `dev/ill.html` per vederli tutti insieme). Anteprima social: `dev/og.html` → `assets/img/og.jpg`.
 
 ## File
 
@@ -29,13 +36,15 @@ python dev/serve.py 8790          # server senza cache → http://localhost:8790
 | `assets/js/i18n.js` | `en`: dizionario inglese completo · `it`: le poche stringhe italiane usate solo dal codice (modulo, menu, titolo) |
 | `assets/js/scroll.js` | (core) avanzamento `p` delle sezioni `[data-pin]`, evento `pin:progress`, variabile `--p` |
 | `assets/js/stages.js` | (core) monta le scene 3D sulle sezioni `[data-stage]` |
-| `assets/js/three/*` | (core + scene) motore, materiali, logo; scene `intro`, `printer`, `works` |
+| `assets/js/three/*` | (core + scene) motore, materiali, logo; scene `intro`, `printer`, `anatomy`, `tech`, `works`, `audience`, `visor`, `lab`; `kit.js` = attrezzi comuni di `anatomy` e `audience` |
 
 ### Sezioni
 
 `nav` → `#intro` (nero, fissata 7 schermi: hero, nome, missione, 3 pilastri, visione, finale) → `#macchina` (bianco,
-6 schermi: stampante, vista esplosa con legenda e etichette, stampa) → `#lavori` (7 schermi: Aura, scultura in resina,
-Zigzig; sfondo bianco → nero a p 0.30–0.38) → `#galleria` → `#servizi` → `#storia` → `#preventivo` → footer `#contatti`.
+6 schermi: stampante esplosa e stampa) → `#anatomia` (nero, 5: staffa in sezione ed esplosa, riempimenti) →
+`#tecnologie` (bianco, 7: FDM, resina, nylon) → `#lavori` (7 schermi: Aura, scultura in resina, Zigzig; sfondo bianco →
+nero a p 0.30–0.38) → `#galleria` → `#perchi` (nero, 7: riduttore, plastico, vaso) → `#servizi` (disegni tecnici) →
+`#storia` (card 3D della visiera) → `#preventivo` → `#laboratorio` (nero, 4: diorama) → footer `#contatti`.
 
 ### Come funziona una sezione fissata
 
@@ -67,7 +76,6 @@ attiva e apre `wa.me/393926323799?text=…` (nuova scheda) oppure `mailto:3d@til
 
 ## Da completare
 
-- `assets/img/og.jpg` (1200×630) per le anteprime social: i tag ci sono già, l'immagine no.
 - Foto dei lavori in alta risoluzione (ora 640 px, prese da Instagram): in galleria non vengono mai ingrandite oltre
   la misura originale, ma su schermi retina sarebbero più nitide.
 - Rilettura finale di testi e crediti con Tillverka (missione e visione sono bozze approvate).

@@ -1,4 +1,4 @@
-# Tillverka · sito web — documento di passaggio (26/09/2026)
+# Tillverka · sito web — documento di passaggio (26/09/2026, sera)
 
 Da leggere per primo in una nuova chat/sessione. Poi `SPEC.md` (capitolato vincolante) e `README.md`.
 
@@ -11,8 +11,11 @@ Da leggere per primo in una nuova chat/sessione. Poi `SPEC.md` (capitolato vinco
   animato; un bel focus su **mission e vision**.
 - **Tecnica:** sito statico, niente build. `index.html` + CSS + moduli ES; Three.js 0.170 da jsdelivr (importmap).
   Si pubblicherà su GitHub Pages (`sagardelledonne.github.io/tillverka`), il workflow è già pronto in
-  `.github/workflows/pages.yml` (pubblica solo `index.html` e `assets/`). **Repo GitHub non ancora creato.**
-- **Cartella:** `C:\Users\boate\projects\tillverka` (git locale, 6 commit; `git log` per la storia).
+  `.github/workflows/pages.yml` (pubblica solo `index.html` e `assets/`, a ogni push su `main`).
+- **Repo GitHub:** `sagardelledonne/tillverka` (**privato**). `main` contiene solo lo zip caricato da Sagar; tutto il
+  lavoro sta sul ramo `claude/sharp-goodall-1pnd38`. Unire su `main` = pubblicare: **solo con l'ok di Sagar**.
+- **Cartella locale di Sagar:** `C:\Users\boate\projects\tillverka` (copia vecchia, del mattino del 26/09).
+  Sagar lavora in sessioni online (cloud) per via dei limiti del piano: il repo è la fonte di verità.
 
 ## 2. Decisioni prese con Sagar (non rimetterle in discussione)
 
@@ -42,7 +45,7 @@ assets/js/stages.js         monta le scene vicine allo schermo e SPEGNE quelle l
 assets/js/three/core.js     motore comune: renderer, ambiente riflesso, ciclo, p ammorbidito, destroy()
 assets/js/three/materials.js  argento vivo, oro, bambù, grafite, vetro, resina cristallo, glow + texture
 assets/js/three/logo-shape.js logo ricostruito in vettoriale (3 pezzi a 120°)
-assets/js/three/*-scene.js  le scene (vedi §4)
+assets/js/three/*-scene.js  le scene (vedi §4); kit.js = attrezzi comuni di anatomy e audience
 assets/img/                 logo SVG, favicon, foto lavori (640 px da Instagram, .webp)
 SPEC.md                     capitolato: fatti, palette, contratto delle scene, TEMPI (p) di ogni sezione (§5, §7)
 dev/serve.py                anteprima senza cache:  python dev/serve.py 8790  → http://localhost:8790/
@@ -50,38 +53,43 @@ dev/scene.html              prova di UNA scena: dev/scene.html?name=tech&p=0.45&
 dev/shot.sh                 foto di una pagina con Chrome headless (solo pagine senza scroll)
 dev/sheet.py + snap.mjs     foglio provini con Puppeteer (anche pagina intera fatta scorrere):
                             python dev/sheet.py dev/shots/x.png 1440,900 4 "index.html@macchina:0.35|etichetta" ...
-                            (serve: cd dev && npm i puppeteer-core@23 — già installato in dev/node_modules)
+                            (serve: cd dev && npm i puppeteer-core@23; nel cloud anche npm i --no-save three@0.170.0)
+dev/an.sh                   una scena a più p:  bash dev/an.sh audience dev/shots/a.png 1440,900 4 0.1 0.5 0.9
+dev/full.py                 tutta la pagina, ogni passo:  python dev/full.py dev/shots/full 390,844 [en] [sezioni]
+dev/ill.py                  genera i disegni tecnici SVG e li inserisce in index.html (--preview → dev/ill.html)
+dev/og.html                 pagina da cui si fotografa assets/img/og.jpg (1200×630)
 _ricerca/                   materiale raccolto (foto originali, logo ingrandito, dati del logo)
 docs/stato-26-09.png        foglio provini dello stato attuale
 ```
 
-## 4. Stato delle scene 3D (26/09/2026 ore 13)
+## 4. Stato (26/09/2026 sera)
 
 | scena | sezione | stato |
 |---|---|---|
-| intro-scene.js | #intro (logo, mission/vision, 3 pilastri) | fatta e bella; i pezzi esplodono anche a strati. **Da controllare:** nella pagina intera, in alto, il logo non compare nelle foto headless (animazione d'ingresso: deve andare a orologio reale, una volta sola per pagina) |
-| printer-scene.js | #macchina (stampante chiusa esplosa + stampa del logo) | fatta; esplosione più generosa. Compilazione lenta in SwiftShader (ok nei browser veri) |
-| works-scene.js | #lavori (sgabello Aura, scultura di cristallo, lampada Zigzig) | fatta |
-| tech-scene.js | #tecnologie (hotend FDM, stampante a resina, nylon MJF) | fatta e funziona; da togliere gli avvisi `toNonIndexed(): already non-indexed` |
-| visor-scene.js | card in #storia (visiera 2020 esplosa) | la scena funziona nella pagina di prova; **nella pagina intera la card resta vuota** (timeout): verificare il montaggio della card data-pin="view" |
-| lab-scene.js | #laboratorio (diorama del lab che esplode a strati) | fatta e bella |
-| **anatomy-scene.js** | #anatomia | **MANCA** (SPEC §7.1) — la sezione HTML c'è, mostra il ripiego |
-| **audience-scene.js** | #perchi | **MANCA** (SPEC §7.3) — la sezione HTML c'è, mostra il ripiego |
+| intro-scene.js | #intro (logo, mission/vision, 3 pilastri) | fatta; l'ingresso a orologio vero funziona anche nelle foto (logo incastrato in < 1 s) |
+| printer-scene.js | #macchina (stampante chiusa esplosa + stampa del logo) | fatta |
+| anatomy-scene.js | #anatomia | **fatta** (SPEC §7.1): staffa PLA argento con aletta a sbalzo, taglio con foglio di luce, esploso (4 strati di superficie a ±45°, 3 pareti concentriche, gyroid vero da surface nets, fondo, supporti ad albero bambù, brim), ristampa griglia → nido d'ape → gyroid, chiusura con bagliore che si raffredda |
+| tech-scene.js | #tecnologie | fatta; avvisi `toNonIndexed` tolti |
+| works-scene.js | #lavori | fatta |
+| audience-scene.js | #perchi | **fatta** (SPEC §7.3): riduttore epicicloidale con dentature a evolvente vere (12/15/42) che girano ingranate, plastico a curve di livello in bambù con edificio che si apre, vaso seta verde→oro che cambia forma 3 volte ed esplode in anelli |
+| visor-scene.js | card in #storia | fatta; la visiera ora sta sotto la didascalia della card |
+| lab-scene.js | #laboratorio | fatta; nella vista finale dall'alto non tocca più il titolo |
 
-Pagina: tutte le sezioni del §7 sono state aggiunte (ordine e alternanza nero/bianco), illustrazioni SVG in parte.
+Pagina: disegni tecnici SVG completi (servizi, altezze di strato 0,05/0,1/0,2 mm, Come funziona, riserve senza WebGL
+per anatomia/tecnologie/per chi/visiera) generati da `dev/ill.py`; `assets/img/og.jpg` fatta (`dev/og.html`);
+322 chiavi di traduzione, nessuna mancante. Controllo con i fogli provini fatto su desktop 1440×900, telefono 390×844 e
+inglese (`python dev/full.py …`). Foto di riferimento dello stato: `docs/stato-26-09-sera.png`.
 
 ## 5. Prossimi passi (in ordine)
 
-1. Scrivere `anatomy-scene.js` (SPEC §7.1) e `audience-scene.js` (SPEC §7.3), seguendo lo stile delle scene esistenti
-   (stesso contratto: `export async function create(ctx)` → `{scene, camera, update(state), resize, dispose}`).
-2. Sistemare: logo in alto nella pagina intera; card visiera in #storia; avvisi di tech-scene.
-3. Controllo completo con i fogli provini: ogni sezione e ogni passo, desktop 1440×900 e telefono 390×844,
-   anche `?lang=en`; niente testo sopra il 3D, niente oggetti tagliati; illustrazioni SVG complete (§7.6).
-4. Immagine di anteprima `assets/img/og.jpg` (1200×630, logo cromato su nero + titolo), README aggiornato.
-5. Pubblicare: `gh repo create sagardelledonne/tillverka --public`, push su main, Pages con Source = GitHub Actions
-   (`gh api -X POST repos/sagardelledonne/tillverka/pages -f build_type=workflow`); **chiedere prima a Sagar**.
-6. Domande aperte per Nicholas: il 392 632 3799 è anche WhatsApp? foto originali in alta risoluzione? dominio
-   (tillverka.xyz oggi non funziona)? va bene la bozza di mission/vision?
+1. **Pubblicare** (solo dopo l'ok di Sagar). Per GitHub Pages gratis il repo deve diventare pubblico: prima togliere
+   da questo file e da SPEC.md le note personali (nomi, piano, limiti) o spostarle altrove. Poi Sagar, dal sito di
+   GitHub: Settings → General → Change visibility → Public; Settings → Pages → Source = **GitHub Actions**.
+   Infine unire `claude/sharp-goodall-1pnd38` su `main` (push): il workflow pubblica in 1–2 minuti su
+   `https://sagardelledonne.github.io/tillverka/`. Controllare che l'anteprima social mostri `og.jpg`.
+2. Domande aperte per Nicholas: il 392 632 3799 è anche WhatsApp? foto originali in alta risoluzione? dominio
+   (tillverka.xyz oggi non funziona)? va bene la bozza di mission/vision? (e rilettura di testi e crediti)
+3. Se arriva un dominio: aggiornare `canonical`, `og:url`, `og:image`, `hreflang` e JSON-LD in `index.html`.
 
 ## 6. Come lavorare con Sagar
 
