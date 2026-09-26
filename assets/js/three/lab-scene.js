@@ -622,9 +622,10 @@ export async function create(ctx) {
 
       /* ---------- camera ---------- */
       const el = lerp(lerp(0.52, 0.6, enter), 1.45, top) - (idle ? pointer.y * 0.03 : 0) * (1 - top);
-      const offX = lerp(0, 0.2, desk), offY = lerp(0.2, 0, desk);
+      /* nella vista dall'alto il diorama è più largo: più a destra e più piccolo, il titolo finale resta libero */
+      const offX = lerp(0, lerp(0.2, 0.235, top), desk), offY = lerp(0.2, 0, desk);
       camera.setViewOffset(w, h, -offX * w, offY * h, w, h);
-      const availH = lerp(0.9, 0.56, desk), availV = lerp(0.42, 0.8, desk);
+      const availH = lerp(0.9, lerp(0.56, 0.45, top), desk), availV = lerp(0.42, 0.8, desk);
       const kV = 1 / (tanHalf * availV), kH = 1 / (tanHalf * aspect * availH);
       for (let i = 0; i < fit.length; i++) wFit[i].copy(fit[i][1]).applyMatrix4(fit[i][0].matrixWorld);
       fitView(wFit, el, kV, kH, view);
